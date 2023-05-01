@@ -1,21 +1,15 @@
 import './App.css';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
-import Header from './Header/Header'
 import ListOfItems from './Items/ListOfItems';
-import ItemCard from './Items/ItemCard'
-import TransparentBlock from './Items/TransparentBlock';
 import Editing from './Editing/Editing';
-import Addition from './Addition/Addition';
 import {
   BrowserRouter,
-  Router,
   Route,
   Routes,
-  Navigate,
-  withRouter
 } from "react-router-dom"
+import { Header } from './components/header/Header';
+import { Addition } from './components/requestForm/Addition';
 
 function App() {
 
@@ -25,10 +19,6 @@ function App() {
             height:'100%'}}> 
       <Header/>
       <Routes>
-      {/* <div style={{position: "fixed",  height: '110%', width:'100%'}}> 
-      <TransparentBlock/></div> */}
-      
-      {/* <div style={{display:'flex',position: "absolute", height:'100%', width:'50%', alignItems:'center', marginLeft:'25%'}}><ItemCard></ItemCard></div> */}
       <Route path="/" exact element={<ListOfItems/>} />
       <Route path="/Addition" exact element={<Addition/>} />
       <Route path="/Editing" exact element={<Editing/>} />

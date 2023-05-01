@@ -1,17 +1,15 @@
 import React from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
-import colors from '../Themes/colors';
-import img2 from './дома.jpg'
+import colors from '../../Themes/colors';
+import img2 from '../../assets/houses.jpg'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useState } from 'react';
-import { newRequest } from '../app/actions/newRequest';
-import { useDispatch } from 'react-redux' 
-import { useEffect } from "react";
+import { newRequest } from '../../app/actions/newRequest';
+import { useDispatch } from 'react-redux'
+import { FileUploadButton } from './FileUploadButton';
 
-
-function Addition () {
- 
+export const Addition = () => { 
 
     const [request, setRequest] = useState({
         name: "",
@@ -23,9 +21,9 @@ function Addition () {
 
     const dispatch = useDispatch()
     
-    const addRequest = () =>
-    {
-        dispatch(newRequest(request))  }
+    const addRequest = () => {
+        dispatch(newRequest(request))
+    }
 
     return (       
      
@@ -54,9 +52,10 @@ function Addition () {
                         sx={{
                             marginLeft:'1%',
                             backgroundColor: colors.brown,
-                            color:colors.white,
-                            minWidth:'40px'
-                            }}
+                            color: colors.white,
+                            width:'40px',
+                            height: '40px'
+                        }}
                     ></Button>
                     </Link>
                 </Box>
@@ -147,23 +146,8 @@ function Addition () {
                     <Box sx={{marginTop:1,
                              display:'flex',
                              flexDirection:'row'}}>
-
-
-                        <label htmlFor="contained-button-file">
-                            <Button variant="contained" component="span"
-                            sx={{borderColor: colors.white,
-                                backgroundColor: colors.yellow}}>
-                            Выберите файл
-                            </Button>
-                        </label>
-
-                        <input
-                            accept="image/*"                            
-                            id="contained-button-file"
-                            multiple
-                            type="file"
-                             hidden = "hidden"
-                        />
+                    
+                    <FileUploadButton/>                        
                        
 
                         <Box sx={{display: 'flex', 
@@ -199,12 +183,7 @@ function Addition () {
                 </Box>
                
 
-            </Box>           
-            {/* <Box sx={{width:'30%',                      
-                        backgroundImage: `url(${img})`}}>
-                           
-            </Box>     */}
+            </Box>
             </Box>
         </Box>
     )}
-    export default Addition;
