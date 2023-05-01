@@ -10,17 +10,19 @@ namespace Persistence.Repository
         private readonly IPlannerDbContext _context;
         private GenericRepository<Request> _requestRepository;
         private GenericRepository<Status> _statusRepository;
-
-
+        private GenericRepository<Furniture> _furnitureRepository;
 
         public UnitOfWork(IPlannerDbContext context)
         {
             _context = context;
         }
 
-        public IGenericRepository<Request> GenreRepository => _requestRepository ??= new GenericRepository<Request>(_context);
-        public IGenericRepository<Status> StatusRepository => _statusRepository ??= new GenericRepository<Status>(_context);
-
+        public IGenericRepository<Request> GenreRepository => 
+            _requestRepository ??= new GenericRepository<Request>(_context);
+        public IGenericRepository<Status> StatusRepository => 
+            _statusRepository ??= new GenericRepository<Status>(_context);
+        public IGenericRepository<Furniture> FurnitureRepository =>
+            _furnitureRepository ??= new GenericRepository<Furniture>(_context);
 
         #region Dispose
         private bool disposed = false;

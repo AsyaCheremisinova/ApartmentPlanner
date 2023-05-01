@@ -9,6 +9,5 @@ namespace Application.Interfaces
         public List<RequestResponseDto> GetAllRequests();
         public RequestResponseDto GetRequestById(Guid id);
         public void UpdateRequest(Guid id, RequestRequestDto requestDto);
-
     }
 }

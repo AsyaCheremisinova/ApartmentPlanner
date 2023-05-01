@@ -1,5 +1,4 @@
 ﻿using Domain.Entities;
-using System;
 
 namespace Application.Common.Interfaces
 {
@@ -7,5 +6,6 @@ namespace Application.Common.Interfaces
     {
         public IGenericRepository<Request> GenreRepository { get; }
         public IGenericRepository<Status> StatusRepository { get; }
+        public IGenericRepository<Furniture> FurnitureRepository { get; }
     }
 }

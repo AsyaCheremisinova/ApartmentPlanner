@@ -21,6 +21,8 @@ namespace Persistence.DbContext
         public DbSet<Category> Categories { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<Furniture> Furniture { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = new NpgsqlConnectionStringBuilder
@@ -39,6 +41,7 @@ namespace Persistence.DbContext
         {
             new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
             new StatusConfiguration().Configure(modelBuilder.Entity<Status>());
+            new FurnitureConfiguration().Configure(modelBuilder.Entity<Furniture>());
         }
     }
 }

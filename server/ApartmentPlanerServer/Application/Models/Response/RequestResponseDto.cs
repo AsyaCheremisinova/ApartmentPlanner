@@ -4,7 +4,7 @@ namespace Application.Models.Response
 {
     public class RequestResponseDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public float Height { get; set; }
         public float Width { get; set; }

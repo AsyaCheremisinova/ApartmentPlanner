@@ -2,7 +2,7 @@
 {
     public class Request
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public float Height { get; set; }
         public float Width { get; set; }
@@ -12,6 +12,5 @@
         public string? Link { get; set; }
         public string? Image { get; set; }
         public Status Status { get; set; }
-
     }
 }

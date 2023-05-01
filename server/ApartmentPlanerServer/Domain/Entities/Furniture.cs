@@ -1,8 +1,8 @@
 ﻿namespace Domain.Entities
 {
-    public class Category
+    public class Furniture
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public byte[] SourceFile { get; set; }
     }
 }

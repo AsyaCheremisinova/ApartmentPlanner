@@ -3,15 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApartmentPlanerServer", "ApartmentPlanerServer\ApartmentPlanerServer.csproj", "{1EB9E744-3396-49A8-B4D4-E835604D5682}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApartmentPlanerServer", "ApartmentPlanerServer\ApartmentPlanerServer.csproj", "{1EB9E744-3396-49A8-B4D4-E835604D5682}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{BF5E430E-38E5-4EE5-9D9B-C4ECD16C40ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{BF5E430E-38E5-4EE5-9D9B-C4ECD16C40ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{7F6BCCAD-E03A-42C2-B265-BF0F58E770F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{7F6BCCAD-E03A-42C2-B265-BF0F58E770F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{6C99E66F-2F06-49A0-866D-EC2D5B390408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{6C99E66F-2F06-49A0-866D-EC2D5B390408}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{FF84214A-D418-42A0-B3AC-4AEB87E34C0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{FF84214A-D418-42A0-B3AC-4AEB87E34C0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{46DA7E62-9BA2-47FF-8CED-33B701CF81EC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,49 +1,26 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
-using Application.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApartmentPlanerServer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RequestController : Controller
+    public class FurnitureController : Controller
     {
-        private readonly IRequestService _requestService;
+        private readonly IFurnitureService _furnitureService;
 
-        public RequestController(IRequestService productService)
+        public FurnitureController(IFurnitureService furnitureService)
         {
-            _requestService = productService;
+            _furnitureService = furnitureService;
         }
 
         [HttpPost]
-        public IActionResult CreateGenre(RequestRequestDto request)
+        public IActionResult CreateGenre(FurnitureRequestDto furnitureRequestDto)
         {
-            _requestService.SetRequest(request);
+            _furnitureService.SetFurniture(furnitureRequestDto);
 
             return NoContent();
-        }
-
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<RequestResponseDto>> GetAllRequests()
-        {
-            return _requestService.GetAllRequests();
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<RequestResponseDto> GetRequestById(Guid id)
-        {
-            return _requestService.GetRequestById(id);
-        }
-
-        
-        [HttpPut("{id}")]
-        public IActionResult UpdateProduct(Guid id, RequestRequestDto request)
-        {
-            _requestService.UpdateRequest(id, request);
-
-            return Ok();
         }
     }
 }

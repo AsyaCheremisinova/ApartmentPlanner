@@ -31,7 +31,8 @@ namespace ApartmentPlanerServer.ServiceModule
 
         private static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IRequestService, RequestService>();           
+            services.AddScoped<IRequestService, RequestService>();
+            services.AddScoped<IFurnitureService, FurnitureService>();
             return services;
         }
     }
