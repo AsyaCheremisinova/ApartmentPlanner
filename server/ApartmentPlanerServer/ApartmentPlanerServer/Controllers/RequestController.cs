@@ -1,26 +1,93 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
+using Application.Models.Response;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApartmentPlanerServer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class FurnitureController : Controller
+    public class RequestController : Controller
     {
-        private readonly IFurnitureService _furnitureService;
+        private readonly IRequestService _requestService;
 
-        public FurnitureController(IFurnitureService furnitureService)
+        public RequestController(IRequestService productService)
         {
-            _furnitureService = furnitureService;
+            _requestService = productService;
         }
 
         [HttpPost]
-        public IActionResult CreateGenre(FurnitureRequestDto furnitureRequestDto)
+        public async Task<IActionResult> CreateRequest()
         {
-            _furnitureService.SetFurniture(furnitureRequestDto);
+            var sourceFile = HttpContext.Request.Form.Files.GetFile("source_file");
+            var imageFile = HttpContext.Request.Form.Files.GetFile("image_file");
+            var name = HttpContext.Request.Form["furniture_name"].ToString();
+            var link = HttpContext.Request.Form["furniture_link"].ToString();
+            float.TryParse(HttpContext.Request.Form["furniture_height"], out var height);
+            float.TryParse(HttpContext.Request.Form["furniture_width"], out var width);
+            float.TryParse(HttpContext.Request.Form["furniture_depth"], out var depth);
+            int.TryParse(HttpContext.Request.Form["category_id"], out var categoryId);
+
+            if (sourceFile == null || imageFile == null)
+            {
+                return BadRequest();
+            }
+
+            var sourceFileRequest = new FileRequestDto();
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                await sourceFile.CopyToAsync(memoryStream);
+                sourceFileRequest.Data = memoryStream.ToArray();
+                sourceFileRequest.Name = sourceFile.FileName;
+            }
+
+            var imageFileRequest = new FileRequestDto();
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                await imageFile.CopyToAsync(memoryStream);
+                imageFileRequest.Data = memoryStream.ToArray();
+                imageFileRequest.Name = imageFile.FileName;
+            }
+
+            _requestService.SetRequest(new RequestRequestDto
+            {
+                Furniture = new FurnitureRequestDto
+                {
+                    Name = name,
+                    Image = imageFileRequest,
+                    CategoryId = categoryId,
+                    ProductLink = link,
+                    Depth = depth,
+                    Width = width,
+                    Height = height,
+                    SourceFile = sourceFileRequest
+                }
+            });
 
             return NoContent();
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<List<RequestResponseDto>> GetAllRequests()
+        {
+            return _requestService.GetAllRequests();
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<RequestResponseDto> GetRequestById(Guid id)
+        {
+            return _requestService.GetRequestById(id);
+        }
+
+        
+        [HttpPut("{id}")]
+        public IActionResult UpdateRequest(Guid id, RequestRequestDto request)
+        {
+            _requestService.UpdateRequest(id, request);
+
+            return Ok();
         }
     }
 }

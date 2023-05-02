@@ -1,19 +1,20 @@
 import { ButtonBase } from "@mui/material"
 import colors from "../../Themes/colors"
 import { useRef } from "react"
-import UploadFileIcon from '@mui/icons-material/UploadFile';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
-export const FileUploadButton = ({setSourceFile}) => {
+export const ImageUploadButton = ({setImage}) => {
     const inputElement = useRef()
 
     const handleFileChange = (e) => {
-        setSourceFile(e.target.files[0])
+        setImage(e.target.files[0])
     }
 
     return(
         <div>            
             <input
                 ref={inputElement}
+                accept="image/*"
                 type="file"
                 hidden
                 onChange={handleFileChange}
@@ -28,7 +29,7 @@ export const FileUploadButton = ({setSourceFile}) => {
                 width: 50,
                 height: 50
             }}>
-                <UploadFileIcon sx={{
+                <AddPhotoAlternateIcon sx={{
                     color: colors.white
                 }}/>
             </ButtonBase>

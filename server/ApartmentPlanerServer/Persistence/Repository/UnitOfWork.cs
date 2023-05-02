@@ -1,7 +1,7 @@
 ﻿using Persistence.DbContext;
 using Domain.Entities;
 using Application.Common.Interfaces;
-using System;
+using File = Domain.Entities.File;
 
 namespace Persistence.Repository
 {
@@ -11,18 +11,24 @@ namespace Persistence.Repository
         private GenericRepository<Request> _requestRepository;
         private GenericRepository<Status> _statusRepository;
         private GenericRepository<Furniture> _furnitureRepository;
+        private GenericRepository<Category> _categoryRepository;
+        private GenericRepository<File> _fileRepository;
 
         public UnitOfWork(IPlannerDbContext context)
         {
             _context = context;
         }
 
-        public IGenericRepository<Request> GenreRepository => 
+        public IGenericRepository<Request> RequestRepository => 
             _requestRepository ??= new GenericRepository<Request>(_context);
         public IGenericRepository<Status> StatusRepository => 
             _statusRepository ??= new GenericRepository<Status>(_context);
         public IGenericRepository<Furniture> FurnitureRepository =>
             _furnitureRepository ??= new GenericRepository<Furniture>(_context);
+        public IGenericRepository<Category> CategoryRepository =>
+            _categoryRepository ??= new GenericRepository<Category>(_context);
+        public IGenericRepository<File> FileRepository =>
+            _fileRepository ??= new GenericRepository<File>(_context);
 
         #region Dispose
         private bool disposed = false;

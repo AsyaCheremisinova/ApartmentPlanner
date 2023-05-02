@@ -1,49 +1,54 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
-using Application.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApartmentPlanerServer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RequestController : Controller
+    public class FurnitureController : Controller
     {
-        private readonly IRequestService _requestService;
+        private readonly IFurnitureService _furnitureService;
 
-        public RequestController(IRequestService productService)
+        public FurnitureController(IFurnitureService furnitureService)
         {
-            _requestService = productService;
+            _furnitureService = furnitureService;
         }
 
         [HttpPost]
-        public IActionResult CreateGenre(RequestRequestDto request)
+        public async Task<IActionResult> CreateFurnitureRequest()
         {
-            _requestService.SetRequest(request);
+            var sourceFile = HttpContext.Request.Form.Files.GetFile("source_file");
+            var imageFile = HttpContext.Request.Form.Files.GetFile("image_file");
+            var name = HttpContext.Request.Form["name"].ToString();
+
+            if (sourceFile == null || imageFile == null)
+            {
+                return BadRequest();
+            }
+
+            var sourceFileRequest = new FileRequestDto();
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                await sourceFile.CopyToAsync(memoryStream);
+                sourceFileRequest.Data = memoryStream.ToArray();
+            }
+
+            var imageFileRequest = new FileRequestDto();
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                await imageFile.CopyToAsync(memoryStream);
+                imageFileRequest.Data = memoryStream.ToArray();
+            }
+
+            _furnitureService.SetFurniture(new FurnitureRequestDto
+            {
+                Name = name,
+                SourceFile = sourceFileRequest,
+                Image = imageFileRequest
+            });
 
             return NoContent();
-        }
-
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<RequestResponseDto>> GetAllRequests()
-        {
-            return _requestService.GetAllRequests();
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<RequestResponseDto> GetRequestById(Guid id)
-        {
-            return _requestService.GetRequestById(id);
-        }
-
-        
-        [HttpPut("{id}")]
-        public IActionResult UpdateProduct(Guid id, RequestRequestDto request)
-        {
-            _requestService.UpdateRequest(id, request);
-
-            return Ok();
         }
     }
 }

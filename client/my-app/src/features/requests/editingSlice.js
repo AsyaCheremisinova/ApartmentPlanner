@@ -12,8 +12,6 @@ export const editingSlice = createSlice({
     open: (state, action) => {
       state.isOpen = true
       state.requestInfo = action.payload
-      console.log(state.requestInfo)
-      console.log(action.payload)
     },
     close: (state) => {
       state.isOpen = false

@@ -33,6 +33,7 @@ namespace ApartmentPlanerServer.ServiceModule
         {
             services.AddScoped<IRequestService, RequestService>();
             services.AddScoped<IFurnitureService, FurnitureService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             return services;
         }
     }

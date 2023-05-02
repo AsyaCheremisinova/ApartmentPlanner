@@ -22,7 +22,6 @@ export const getRequests = () => {
 
             })
         })
-        console.log(requests)
         dispatch(setAll(requests))
     }
 }

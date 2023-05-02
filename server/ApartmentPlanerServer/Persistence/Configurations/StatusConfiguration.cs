@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Persistence.Configurations
@@ -21,9 +16,6 @@ namespace Persistence.Configurations
             builder.Property(status => status.Name)
                 .IsRequired()
                 .HasMaxLength(45);
-
-            builder.HasMany(status => status.Requests)
-                .WithOne(request => request.Status);
         }
     }
 }

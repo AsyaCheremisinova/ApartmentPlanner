@@ -16,8 +16,7 @@ function ListOfItems ()  {
     }, [])
 
     const requests = useSelector(state => state.request.requests) 
-    console.log(requests)
-
+    
     return (
         <Box sx={{backgroundColor:colors.lightGray,
             display: 'flex',            

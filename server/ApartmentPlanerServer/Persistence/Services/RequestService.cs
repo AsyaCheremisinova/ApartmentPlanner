@@ -4,103 +4,84 @@ using Application.Interfaces;
 using Application.Models.Requests;
 using Application.Models.Response;
 using Domain.Entities;
-using System.ComponentModel.DataAnnotations;
-using static System.Net.Mime.MediaTypeNames;
+using File = Domain.Entities.File;
 
 namespace Persistence.Services
 {
     public class RequestService : IRequestService
     {
-        private readonly IGenericRepository<Request> _repository;
+        private readonly IGenericRepository<Request> _requestRepository;
         private readonly IGenericRepository<Status> _statusRepository;
+        private readonly IGenericRepository<Furniture> _furnitureRepository;
+        private readonly IGenericRepository<File> _fileRepository;
+        private readonly IGenericRepository<Category> _categoryRepository;
 
         public RequestService(IUnitOfWork unitOfWork)
         {
-            _repository = unitOfWork.GenreRepository;
+            _requestRepository = unitOfWork.RequestRepository;
             _statusRepository = unitOfWork.StatusRepository;
+            _furnitureRepository = unitOfWork.FurnitureRepository;
+            _fileRepository = unitOfWork.FileRepository;
+            _categoryRepository = unitOfWork.CategoryRepository;
         }
 
-        public void SetRequest(RequestRequestDto requesDto)
+        public void SetRequest(RequestRequestDto requestDto)
         {
-            var status = _statusRepository.GetByID(requesDto.StatusId);
-            _repository.Insert(new Request
+            var imageFile = new File
             {
-                Name = requesDto.Name,
-                Width = requesDto.Width,
-                Height = requesDto.Height,
-                Depth = requesDto.Depth,
-                Material = requesDto.Material,
-                Manufacturer = requesDto.Manufacturer,
-                Link = requesDto.Link,
-                Image = requesDto.Image,
-                Status = status,
+                Data = requestDto.Furniture.Image.Data,
+                Name = requestDto.Furniture.Image.Name
+            };
+            _fileRepository.Insert(imageFile);
+
+            var sourceFile = new File
+            {
+                Data = requestDto.Furniture.SourceFile.Data,
+                Name = requestDto.Furniture.SourceFile.Name
+            };
+            _fileRepository.Insert(sourceFile);
+
+            var furniture = new Furniture
+            {
+                Name = requestDto.Furniture.Name,
+                Image = imageFile,
+                SourceFile = sourceFile,
+                Depth = requestDto.Furniture.Depth,
+                Width = requestDto.Furniture.Width,
+                Height = requestDto.Furniture.Height,
+                ProductLink = requestDto.Furniture.ProductLink,
+                Category = FindCategoryById(requestDto.Furniture.CategoryId)
+            };
+            _furnitureRepository.Insert(furniture);
+
+            _requestRepository.Insert(new Request
+            {
+                Furniture = furniture,
             });
         }
+
         public List<RequestResponseDto> GetAllRequests()
         {
-            return _repository.GetList()
-                .Select(request => new RequestResponseDto
-                {
-                    Id = request.Id,
-                    Name = request.Name,
-                    Width = request.Width,
-                    Height = request.Height,
-                    Depth = request.Depth,
-                    Material = request.Material,
-                    Manufacturer = request.Manufacturer,
-                    Link = request.Link,
-                    Image = request.Image,
-                    Status = request.Status,               
-
-                })
-                .OrderBy(request => request.Name)
-                .ToList();
+            throw new NotImplementedException();
         }
+
         public RequestResponseDto GetRequestById(Guid id)
         {
-            var request = FindRequestById(id);
-
-            return new RequestResponseDto
-            {
-                Id = request.Id,
-                Name = request.Name,
-                Width = request.Width,
-                Height = request.Height,
-                Depth = request.Depth,
-                Material = request.Material,
-                Manufacturer = request.Manufacturer,
-                Link = request.Link,
-                Image = request.Image,
-                Status = request.Status,
-            };
-               
-        }
-        private Request FindRequestById(Guid id)
-        {
-            var request = _repository.GetByID(id);
-
-            if (request == null)
-                throw new NotFoundException(nameof(Request), id);
-
-            return request;
+            throw new NotImplementedException();
         }
 
         public void UpdateRequest(Guid id, RequestRequestDto requestDto)
         {
-            var request = FindRequestById(id);
-            var status = _statusRepository.GetByID(requestDto.StatusId);
+        }
 
-            request.Name = requestDto.Name;
-            request.Width = requestDto.Width;
-            request.Height = requestDto.Height;
-            request.Depth = requestDto.Depth;
-            request.Material = requestDto.Material;
-            request.Manufacturer = requestDto.Manufacturer;
-            request.Link = requestDto.Link;
-            request.Image = requestDto.Image;
-            request.Status = status;
-
-            _repository.SaveChanges();
+        private Category FindCategoryById(int id)
+        {
+            var category = _categoryRepository.GetByID(id);
+            
+            if (category == null)
+                throw new BadRequestException();
+            
+            return category;
         }
     }
 }
