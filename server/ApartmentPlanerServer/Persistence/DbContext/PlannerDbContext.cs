@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Npgsql;
 using Persistence.Configurations;
 using Persistence.Options;
+using File = Domain.Entities.File;
 
 namespace Persistence.DbContext
 {
@@ -22,6 +23,9 @@ namespace Persistence.DbContext
         public DbSet<Request> Requests { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Furniture> Furniture { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<File> Files { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,6 +46,7 @@ namespace Persistence.DbContext
             new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
             new StatusConfiguration().Configure(modelBuilder.Entity<Status>());
             new FurnitureConfiguration().Configure(modelBuilder.Entity<Furniture>());
+            new UserConfiguration().Configure(modelBuilder.Entity<User>());
         }
     }
 }

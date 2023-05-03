@@ -3,6 +3,7 @@ using Application.Models.Requests;
 using Application.Models.Response;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace ApartmentPlanerServer.Controllers
 {
@@ -69,25 +70,17 @@ namespace ApartmentPlanerServer.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<RequestResponseDto>> GetAllRequests()
+        public ICollection<RequestResponseDto> GetAllRequests()
         {
             return _requestService.GetAllRequests();
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<RequestResponseDto> GetRequestById(Guid id)
-        {
-            return _requestService.GetRequestById(id);
-        }
+        //[HttpPut("{id}")]
+        //public IActionResult UpdateRequest(int id, RequestRequestDto request)
+        //{
+        //    _requestService.UpdateRequest(id, request);
 
-        
-        [HttpPut("{id}")]
-        public IActionResult UpdateRequest(Guid id, RequestRequestDto request)
-        {
-            _requestService.UpdateRequest(id, request);
-
-            return Ok();
-        }
+        //    return Ok();
+        //}
     }
 }

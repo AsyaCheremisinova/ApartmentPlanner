@@ -8,8 +8,8 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Furniture> builder)
         {
-            builder.HasKey(category => category.Id);
-            builder.Property(category => category.Id)
+            builder.HasKey(furniture => furniture.Id);
+            builder.Property(furniture => furniture.Id)
                 .IsRequired()
                 .HasColumnName("Id");
         }

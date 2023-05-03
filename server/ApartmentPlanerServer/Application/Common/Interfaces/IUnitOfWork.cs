@@ -10,5 +10,7 @@ namespace Application.Common.Interfaces
         public IGenericRepository<Furniture> FurnitureRepository { get; }
         public IGenericRepository<Category> CategoryRepository { get; }
         public IGenericRepository<File> FileRepository { get; }
+        public IGenericRepository<User> UserRepository { get; }
+        public IGenericRepository<Role> RoleRepository { get; }
     }
 }

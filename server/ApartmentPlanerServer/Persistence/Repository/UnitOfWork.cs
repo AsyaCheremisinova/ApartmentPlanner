@@ -13,6 +13,8 @@ namespace Persistence.Repository
         private GenericRepository<Furniture> _furnitureRepository;
         private GenericRepository<Category> _categoryRepository;
         private GenericRepository<File> _fileRepository;
+        private GenericRepository<User> _userRepository;
+        private GenericRepository<Role> _roleRepository;
 
         public UnitOfWork(IPlannerDbContext context)
         {
@@ -29,6 +31,10 @@ namespace Persistence.Repository
             _categoryRepository ??= new GenericRepository<Category>(_context);
         public IGenericRepository<File> FileRepository =>
             _fileRepository ??= new GenericRepository<File>(_context);
+        public IGenericRepository<User> UserRepository => 
+            _userRepository ??= new GenericRepository<User>(_context);
+        public IGenericRepository<Role> RoleRepository =>
+            _roleRepository ??= new GenericRepository<Role>(_context);
 
         #region Dispose
         private bool disposed = false;

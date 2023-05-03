@@ -13,7 +13,6 @@ namespace Persistence.Services
         {
             _furnitureRepository = unitOfWork.FurnitureRepository;
         }
-
         
         public void SetFurniture(FurnitureRequestDto furnitureRequestDto)
         {

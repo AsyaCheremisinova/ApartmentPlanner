@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Application.Models.Requests;
 using Application.Models.Response;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using File = Domain.Entities.File;
 
 namespace Persistence.Services
@@ -49,6 +50,8 @@ namespace Persistence.Services
                 Depth = requestDto.Furniture.Depth,
                 Width = requestDto.Furniture.Width,
                 Height = requestDto.Furniture.Height,
+                ImageId = imageFile.Id,
+                SourceFileId = sourceFile.Id,
                 ProductLink = requestDto.Furniture.ProductLink,
                 Category = FindCategoryById(requestDto.Furniture.CategoryId)
             };
@@ -60,9 +63,33 @@ namespace Persistence.Services
             });
         }
 
-        public List<RequestResponseDto> GetAllRequests()
+        public ICollection<RequestResponseDto> GetAllRequests()
         {
-            throw new NotImplementedException();
+            var requests = _requestRepository.GetList()
+                .Include(request => request.Furniture)
+                .Include(request => request.Furniture.Category);
+
+            return requests.Select(request => new RequestResponseDto
+                {
+                    Id = request.Id,
+                    Furniture = new FurnitureResponseDto
+                    {
+                        Id = request.Furniture.Id,
+                        Name = request.Furniture.Name,
+                        Depth = request.Furniture.Depth,
+                        Height = request.Furniture.Height,
+                        Width = request.Furniture.Width,
+                        ProductLink = request.Furniture.ProductLink,
+                        ImageId = request.Furniture.ImageId,
+                        SourceFileId = request.Furniture.SourceFileId,
+                        Category = new CategoryResponseDto
+                        {
+                            Id = request.Furniture.Category.Id,
+                            Name = request.Furniture.Category.Name
+                        }
+                    }
+                })
+                .ToList();
         }
 
         public RequestResponseDto GetRequestById(Guid id)
