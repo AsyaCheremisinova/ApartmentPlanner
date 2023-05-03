@@ -13,9 +13,8 @@ export const RequestUploadForm = () => {
 
     return (
         <Box sx={{ 
-            height:'90%',
-            width: '100%', 
-            padding: 0,           
+            paddingTop: "90px",
+            width: '100%',        
             backgroundImage: `url(${img2})`,
             backgroundSize: "100%"
         }}> 

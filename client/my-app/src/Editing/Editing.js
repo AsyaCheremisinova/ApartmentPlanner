@@ -46,8 +46,7 @@ function Editing (props) {
       },[requestInfo])
     const dispatch = useDispatch()
     
-    const updateRequests = (statusId) =>
-    {
+    const updateRequests = (statusId) => {
         newRequest.id = request.id
         newRequest.name = request.name
         newRequest.width = request.width
@@ -62,12 +61,10 @@ function Editing (props) {
         setRequest({...request, statusId:statusId})
         console.log({newRequest})
 
-        dispatch(updateRequest(newRequest))
-        
+        dispatch(updateRequest(newRequest))       
     }
   
-    return (    
-     
+    return (     
         <Box sx={{ 
             height:'90%',
             width: '100%', 

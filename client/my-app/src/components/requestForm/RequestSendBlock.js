@@ -64,7 +64,7 @@ export const RequestSendBlock = ({data}) => {
                     padding: 1,
                     boxShadow: 1,
                     backgroundColor: colors.lightBrown,
-                    m: 1
+                    margin: 1
                 }}>
                     <Typography sx={{
                         color: colors.white

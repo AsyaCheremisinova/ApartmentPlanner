@@ -6,9 +6,14 @@ export const Header = () => {
     return (
         <Box sx={{
             backgroundColor: colors.lightBrown,
-            height:'10%',
+            height: 90,
             display: 'flex',
             flexDirection: 'row',
+            width: '100%',
+            display: 'flex',
+            position: 'fixed',
+            zIndex: 1,
+            boxShadow: 1
         }}>
             <Box sx={{
                 height: '100%',
