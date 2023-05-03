@@ -12,5 +12,6 @@ namespace Application.Common.Interfaces
         public IGenericRepository<File> FileRepository { get; }
         public IGenericRepository<User> UserRepository { get; }
         public IGenericRepository<Role> RoleRepository { get; }
+        public IGenericRepository<Project> ProjectRepository { get; }
     }
 }

@@ -28,38 +28,27 @@ namespace Persistence.Services
 
         public void SetRequest(RequestRequestDto requestDto)
         {
-            var imageFile = new File
-            {
-                Data = requestDto.Furniture.Image.Data,
-                Name = requestDto.Furniture.Image.Name
-            };
-            _fileRepository.Insert(imageFile);
-
-            var sourceFile = new File
-            {
-                Data = requestDto.Furniture.SourceFile.Data,
-                Name = requestDto.Furniture.SourceFile.Name
-            };
-            _fileRepository.Insert(sourceFile);
-
-            var furniture = new Furniture
-            {
-                Name = requestDto.Furniture.Name,
-                Image = imageFile,
-                SourceFile = sourceFile,
-                Depth = requestDto.Furniture.Depth,
-                Width = requestDto.Furniture.Width,
-                Height = requestDto.Furniture.Height,
-                ImageId = imageFile.Id,
-                SourceFileId = sourceFile.Id,
-                ProductLink = requestDto.Furniture.ProductLink,
-                Category = FindCategoryById(requestDto.Furniture.CategoryId)
-            };
-            _furnitureRepository.Insert(furniture);
-
             _requestRepository.Insert(new Request
             {
-                Furniture = furniture,
+                Furniture = new Furniture
+                {
+                    Name = requestDto.Furniture.Name,
+                    Image = new File
+                    {
+                        Data = requestDto.Furniture.Image.Data,
+                        Name = requestDto.Furniture.Image.Name
+                    },
+                    SourceFile = new File
+                    {
+                        Data = requestDto.Furniture.SourceFile.Data,
+                        Name = requestDto.Furniture.SourceFile.Name
+                    },
+                    Depth = requestDto.Furniture.Depth,
+                    Width = requestDto.Furniture.Width,
+                    Height = requestDto.Furniture.Height,
+                    ProductLink = requestDto.Furniture.ProductLink,
+                    Category = FindCategoryById(requestDto.Furniture.CategoryId)
+                }
             });
         }
 

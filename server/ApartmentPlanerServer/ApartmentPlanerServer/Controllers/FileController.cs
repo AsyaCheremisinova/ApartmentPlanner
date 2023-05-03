@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
 
 namespace ApartmentPlanerServer.Controllers
 {

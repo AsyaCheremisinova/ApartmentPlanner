@@ -36,6 +36,7 @@ namespace ApartmentPlanerServer.ServiceModule
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IProjectService, ProjectService>();
             return services;
         }
     }

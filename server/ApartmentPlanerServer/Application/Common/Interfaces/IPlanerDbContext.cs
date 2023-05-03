@@ -13,5 +13,6 @@ namespace Application.Common.Interfaces
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<File> Files { get; set; }
+        public DbSet<Project> Projects { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace Persistence.Repository
         private GenericRepository<File> _fileRepository;
         private GenericRepository<User> _userRepository;
         private GenericRepository<Role> _roleRepository;
+        private GenericRepository<Project> _projectRepository;
 
         public UnitOfWork(IPlannerDbContext context)
         {
@@ -35,6 +36,8 @@ namespace Persistence.Repository
             _userRepository ??= new GenericRepository<User>(_context);
         public IGenericRepository<Role> RoleRepository =>
             _roleRepository ??= new GenericRepository<Role>(_context);
+        public IGenericRepository<Project> ProjectRepository =>
+            _projectRepository ??= new GenericRepository<Project>(_context);
 
         #region Dispose
         private bool disposed = false;
