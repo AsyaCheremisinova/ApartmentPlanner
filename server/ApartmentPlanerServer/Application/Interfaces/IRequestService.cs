@@ -7,6 +7,6 @@ namespace Application.Interfaces
     {
         public void SetRequest(CreateRequestRequestDto genreDto);
         public ICollection<RequestResponseDto> GetAllRequests();
-        public void UpdateRequest(int id, UpdateRequestRequestDto requestDto);
+        public void UpdateRequestStatus(int id, RequestStatusLineRequestDto requestDto);
     }
 }
