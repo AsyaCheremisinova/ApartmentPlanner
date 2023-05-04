@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.DbContext;
@@ -11,9 +12,11 @@ using Persistence.DbContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(IPlannerDbContext))]
-    partial class IPlannerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230503232231_SeedCategories")]
+    partial class SeedCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

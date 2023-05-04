@@ -48,6 +48,7 @@ namespace Persistence.DbContext
             new StatusConfiguration().Configure(modelBuilder.Entity<Status>());
             new FurnitureConfiguration().Configure(modelBuilder.Entity<Furniture>());
             new UserConfiguration().Configure(modelBuilder.Entity<User>());
+            new PlannerDbContextInitializer().SeedData(modelBuilder);
         }
     }
 }
