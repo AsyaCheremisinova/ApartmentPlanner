@@ -2,7 +2,9 @@
 using Application.Common.Interfaces;
 using Application.Interfaces;
 using Application.Models.Requests;
+using Application.Models.Response;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using File = Domain.Entities.File;
 
 namespace Persistence.Services
@@ -19,7 +21,29 @@ namespace Persistence.Services
             _fileRepository = unitOfWork.FileRepository;
             _categoryRepository = unitOfWork.CategoryRepository;
         }
-        
+
+        public ICollection<FurnitureResponseDto> GetAllFurniture()
+        {
+            return _furnitureRepository.GetList()
+                .Include(furniture => furniture.Category)
+                .Select(furniture => new FurnitureResponseDto
+                {
+                    Id = furniture.Id,
+                    Depth = furniture.Depth,
+                    Height = furniture.Height,
+                    Width = furniture.Width,
+                    ImageId = furniture.ImageId,
+                    SourceFileId = furniture.SourceFileId,
+                    Name = furniture.Name,
+                    ProductLink = furniture.ProductLink,
+                    Category = new CategoryResponseDto
+                    {
+                        Id = furniture.Category.Id,
+                        Name = furniture.Category.Name
+                    }
+                }).ToList();
+        }
+
         public void UpdateFurniture(int furnitureId, FurnitureRequestDto furnitureRequestDto)
         {
             var furniture = _furnitureRepository.GetByID(furnitureId);

@@ -50,6 +50,12 @@ namespace ApartmentPlanerServer.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public ICollection<FurnitureResponseDto> GetAllFurniture()
+        {
+            return _furnitureService.GetAllFurniture();
+        }
+
         private async Task<FileRequestDto> GetFileRequest(IFormFile file)
         {
             var imageFileRequest = new FileRequestDto();

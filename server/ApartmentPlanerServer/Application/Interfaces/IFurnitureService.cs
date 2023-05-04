@@ -5,5 +5,6 @@ namespace Application.Interfaces
     public interface IFurnitureService
     {
         public void UpdateFurniture(int furnitureId, FurnitureRequestDto furnitureRequestDto);
+        public ICollection<FurnitureResponseDto> GetAllFurniture();
     }
 }
