@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.DbContext;
@@ -11,9 +12,11 @@ using Persistence.DbContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(IPlannerDbContext))]
-    partial class IPlannerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230504110541_AddRequestStatusLine")]
+    partial class AddRequestStatusLine
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,14 +199,12 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Commentary")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 4, 11, 28, 44, 874, DateTimeKind.Utc).AddTicks(1524));
+                        .HasDefaultValue(new DateTime(2023, 5, 4, 11, 5, 41, 104, DateTimeKind.Utc).AddTicks(9610));
 
                     b.Property<int>("RequestId")
                         .HasColumnType("integer");

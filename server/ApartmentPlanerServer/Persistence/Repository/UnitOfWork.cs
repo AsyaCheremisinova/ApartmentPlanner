@@ -16,6 +16,7 @@ namespace Persistence.Repository
         private GenericRepository<User> _userRepository;
         private GenericRepository<Role> _roleRepository;
         private GenericRepository<Project> _projectRepository;
+        private GenericRepository<RequestStatusLine> _requestStatusLineRepository;
 
         public UnitOfWork(IPlannerDbContext context)
         {
@@ -38,6 +39,8 @@ namespace Persistence.Repository
             _roleRepository ??= new GenericRepository<Role>(_context);
         public IGenericRepository<Project> ProjectRepository =>
             _projectRepository ??= new GenericRepository<Project>(_context);
+        public IGenericRepository<RequestStatusLine> RequestStatusLineRepository =>
+            _requestStatusLineRepository ??= new GenericRepository<RequestStatusLine>(_context);
 
         #region Dispose
         private bool disposed = false;

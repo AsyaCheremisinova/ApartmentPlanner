@@ -5,9 +5,8 @@ namespace Application.Interfaces
 {
     public interface IRequestService
     {
-        public void SetRequest(RequestRequestDto genreDto);
+        public void SetRequest(CreateRequestRequestDto genreDto);
         public ICollection<RequestResponseDto> GetAllRequests();
-        public RequestResponseDto GetRequestById(Guid id);
-        public void UpdateRequest(Guid id, RequestRequestDto requestDto);
+        public void UpdateRequest(int id, UpdateRequestRequestDto requestDto);
     }
 }

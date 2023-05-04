@@ -21,7 +21,7 @@ namespace Persistence.Repository
             return _dbSet;
         }
 
-        public virtual TEntity? GetByID(object id)
+        public virtual TEntity GetByID(object id)
         {
             return _dbSet.Find(id);
         }

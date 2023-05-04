@@ -22,6 +22,7 @@ namespace Persistence.DbContext
         public DbSet<Category> Categories { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<RequestStatusLine> RequestStatusLines { get; set; }
         public DbSet<Furniture> Furniture { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -45,7 +46,7 @@ namespace Persistence.DbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
-            new StatusConfiguration().Configure(modelBuilder.Entity<Status>());
+            new RequestConfiguration().Configure(modelBuilder.Entity<Request>());
             new FurnitureConfiguration().Configure(modelBuilder.Entity<Furniture>());
             new UserConfiguration().Configure(modelBuilder.Entity<User>());
             new PlannerDbContextInitializer().SeedData(modelBuilder);

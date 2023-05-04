@@ -13,22 +13,22 @@ namespace Persistence.Services
     {
         private readonly IGenericRepository<Request> _requestRepository;
         private readonly IGenericRepository<Status> _statusRepository;
-        private readonly IGenericRepository<Furniture> _furnitureRepository;
-        private readonly IGenericRepository<File> _fileRepository;
         private readonly IGenericRepository<Category> _categoryRepository;
+        private readonly IGenericRepository<Furniture> _furnitureRepository;
+        private readonly IGenericRepository<RequestStatusLine> _requestStatusLineRepository;
 
         public RequestService(IUnitOfWork unitOfWork)
         {
+            _furnitureRepository = unitOfWork.FurnitureRepository;
             _requestRepository = unitOfWork.RequestRepository;
             _statusRepository = unitOfWork.StatusRepository;
-            _furnitureRepository = unitOfWork.FurnitureRepository;
-            _fileRepository = unitOfWork.FileRepository;
             _categoryRepository = unitOfWork.CategoryRepository;
+            _requestStatusLineRepository = unitOfWork.RequestStatusLineRepository;
         }
 
-        public void SetRequest(RequestRequestDto requestDto)
+        public void SetRequest(CreateRequestRequestDto requestDto)
         {
-            _requestRepository.Insert(new Request
+            var request = new Request
             {
                 Furniture = new Furniture
                 {
@@ -47,8 +47,16 @@ namespace Persistence.Services
                     Width = requestDto.Furniture.Width,
                     Height = requestDto.Furniture.Height,
                     ProductLink = requestDto.Furniture.ProductLink,
-                    Category = FindCategoryById(requestDto.Furniture.CategoryId)
+                    Category = FindCategoryById(requestDto.Furniture.CategoryId),
                 }
+            };
+
+            var status = _statusRepository.GetByID(1);
+
+            _requestStatusLineRepository.Insert(new RequestStatusLine
+            {
+                Request = request,
+                Status = status
             });
         }
 
@@ -81,13 +89,45 @@ namespace Persistence.Services
                 .ToList();
         }
 
-        public RequestResponseDto GetRequestById(Guid id)
+        public void UpdateRequest(int id, UpdateRequestRequestDto requestDto)
         {
-            throw new NotImplementedException();
-        }
+            var request = _requestRepository.GetByID(id);
+            if (request == null)
+                throw new NotFoundException(nameof(Request), id);
 
-        public void UpdateRequest(Guid id, RequestRequestDto requestDto)
-        {
+            var furniture = _furnitureRepository.GetByID(request.FurnitureId);
+            if (furniture == null)
+                throw new NotFoundException(nameof(Furniture), request.FurnitureId);
+
+            _furnitureRepository.Update(new Furniture
+            {
+                Id = furniture.Id,
+                Name = requestDto.Furniture.Name,
+                Image = new File
+                {
+                    Data = requestDto.Furniture.Image.Data,
+                    Name = requestDto.Furniture.Image.Name
+                },
+                SourceFile = new File
+                {
+                    Data = requestDto.Furniture.SourceFile.Data,
+                    Name = requestDto.Furniture.SourceFile.Name
+                },
+                Depth = requestDto.Furniture.Depth,
+                Width = requestDto.Furniture.Width,
+                Height = requestDto.Furniture.Height,
+                ProductLink = requestDto.Furniture.ProductLink,
+                Category = FindCategoryById(requestDto.Furniture.CategoryId)
+            });
+
+            var status = _statusRepository.GetByID(requestDto.RequestStatusLine.StatusId);
+
+            _requestStatusLineRepository.Insert(new RequestStatusLine
+            {
+                Commentary = requestDto.RequestStatusLine.Commentary,
+                Request = request,
+                Status = status
+            });
         }
 
         private Category FindCategoryById(int id)

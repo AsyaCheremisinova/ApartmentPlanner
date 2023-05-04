@@ -4,7 +4,7 @@
     {
         IQueryable<TEntity> GetList();
 
-        TEntity? GetByID(object id);
+        TEntity GetByID(object id);
 
         void Insert(TEntity entity);
 
