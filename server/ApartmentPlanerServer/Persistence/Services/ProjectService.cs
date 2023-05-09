@@ -1,6 +1,8 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using Application.Interfaces;
 using Application.Models.Requests;
+using Application.Models.Response;
 using Domain.Entities;
 using File = Domain.Entities.File;
 
@@ -13,6 +15,20 @@ namespace Persistence.Services
         public ProjectService(IUnitOfWork unitOfWork)
         {
             _projectRepository = unitOfWork.ProjectRepository;
+        }
+
+        public ICollection<ProjectResponseDto> GetAllProjects()
+        {
+            return _projectRepository.GetList()
+                .Select(project => new ProjectResponseDto
+                {
+                    Id = project.Id,
+                    Name = project.Name,
+                    ProjectFileId = project.FileId,
+                    CreatedAt = project.CreatedAt,
+                    LastUpdatedAt = project.LastUpdatedAt
+                })
+                .ToList();
         }
 
         public void SetProject(ProjectRequestDto projectRequestDto)
@@ -28,6 +44,22 @@ namespace Persistence.Services
                     Data = projectRequestDto.ProjectFile.Data
                 }
             });
+        }
+
+        public ProjectResponseDto GetProject(int projectId)
+        {
+            var project = _projectRepository.GetByID(projectId);
+            if (project == null)
+                throw new NotFoundException(nameof(Project), projectId);
+
+            return new ProjectResponseDto
+            {
+                Id = projectId,
+                Name = project.Name,
+                ProjectFileId = project.Id,
+                CreatedAt = project.CreatedAt,
+                LastUpdatedAt = project.LastUpdatedAt
+            };
         }
     }
 }

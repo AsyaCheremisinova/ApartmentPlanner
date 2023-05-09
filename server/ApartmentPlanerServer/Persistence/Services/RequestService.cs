@@ -95,31 +95,6 @@ namespace Persistence.Services
             if (request == null)
                 throw new NotFoundException(nameof(Request), id);
 
-            //var furniture = _furnitureRepository.GetByID(request.FurnitureId);
-            //if (furniture == null)
-            //    throw new NotFoundException(nameof(Furniture), request.FurnitureId);
-
-            //_furnitureRepository.Update(new Furniture
-            //{
-            //    Id = furniture.Id,
-            //    Name = requestDto.Furniture.Name,
-            //    Image = new File
-            //    {
-            //        Data = requestDto.Furniture.Image.Data,
-            //        Name = requestDto.Furniture.Image.Name
-            //    },
-            //    SourceFile = new File
-            //    {
-            //        Data = requestDto.Furniture.SourceFile.Data,
-            //        Name = requestDto.Furniture.SourceFile.Name
-            //    },
-            //    Depth = requestDto.Furniture.Depth,
-            //    Width = requestDto.Furniture.Width,
-            //    Height = requestDto.Furniture.Height,
-            //    ProductLink = requestDto.Furniture.ProductLink,
-            //    Category = FindCategoryById(requestDto.Furniture.CategoryId)
-            //});
-
             var status = _statusRepository.GetByID(requestDto.StatusId);
             if (status == null)
                 throw new NotFoundException(nameof(Status), requestDto.StatusId);

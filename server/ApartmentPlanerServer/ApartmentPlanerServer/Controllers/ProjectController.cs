@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
+using Application.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApartmentPlanerServer.Controllers
@@ -41,6 +42,12 @@ namespace ApartmentPlanerServer.Controllers
             });
 
             return NoContent();
+        }
+
+        [HttpGet]
+        public ICollection<ProjectResponseDto> GetAllProjects()
+        {
+            return _projectService.GetAllProjects();
         }
     }
 }
