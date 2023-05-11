@@ -70,16 +70,14 @@ namespace Persistence.Services
             if (project == null)
                 throw new NotFoundException(nameof(Project), projectId);
 
-            _fileRepository.Delete(_fileRepository.GetByID(project.FileId));
+            var file = _fileRepository.GetByID(project.FileId);
+            file.Data = projectRequestDto.ProjectFile.Data;
+            file.Name = projectRequestDto.ProjectFile.Name;
+            _fileRepository.Update(file);
 
             project.LastUpdatedAt = DateTime.UtcNow;
             project.Name = projectRequestDto.Name;
-            project.File = new File
-            {
-                Data = projectRequestDto.ProjectFile.Data,
-                Name = projectRequestDto.ProjectFile.Name
-            };
-
+            
             _projectRepository.SaveChanges();
         }
 

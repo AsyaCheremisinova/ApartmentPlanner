@@ -54,9 +54,14 @@ namespace Persistence.Services
             if (category == null)
                 throw new NotFoundException(nameof(Category), furnitureRequestDto.CategoryId);
 
-            // Костыль
-            _fileRepository.Delete(_fileRepository.GetByID(furniture.ImageId));
-            _fileRepository.Delete(_fileRepository.GetByID(furniture.SourceFileId));
+            var sourceFile = _fileRepository.GetByID(furniture.SourceFileId);
+            sourceFile.Data = furnitureRequestDto.SourceFile.Data;
+            sourceFile.Name = furnitureRequestDto.SourceFile.Name;
+
+            var imageFile = _fileRepository.GetByID(furniture.ImageId);
+            imageFile.Data = furnitureRequestDto.Image.Data;
+            imageFile.Name = furnitureRequestDto.Image.Name;
+
 
             _furnitureRepository.Update(new Furniture
             {
@@ -65,16 +70,6 @@ namespace Persistence.Services
                 Depth = furnitureRequestDto.Depth,
                 Width = furnitureRequestDto.Width,
                 Category = category,
-                Image = new File
-                {
-                    Data = furnitureRequestDto.Image.Data,
-                    Name = furnitureRequestDto.Image.Name
-                },
-                SourceFile = new File
-                {
-                    Data = furnitureRequestDto.SourceFile.Data,
-                    Name = furnitureRequestDto.SourceFile.Name
-                },
                 Name = furnitureRequestDto.Name,
                 ProductLink = furnitureRequestDto.ProductLink
             });

@@ -23,5 +23,12 @@ namespace ApartmentPlanerServer.Controllers
                 FileDownloadName = file.Name
             };
         }
+
+        [HttpGet("additional/{id}")]
+        public FileResult GetAssetById(int id)
+        {
+            var file = _fileService.GetFileById(id);
+            return new FileStreamResult(new MemoryStream(file.Data), "application/octet-stream");
+        }
     }
 }
