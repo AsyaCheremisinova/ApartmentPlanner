@@ -49,5 +49,41 @@ namespace ApartmentPlanerServer.Controllers
         {
             return _projectService.GetAllProjects();
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProject(int id)
+        {
+            var projectFile = HttpContext.Request.Form.Files.GetFile("project_file");
+            var name = HttpContext.Request.Form["project_name"].ToString();
+
+            if (projectFile == null)
+            {
+                return BadRequest();
+            }
+
+            var projectFileRequest = new FileRequestDto();
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                await projectFile.CopyToAsync(memoryStream);
+                projectFileRequest.Data = memoryStream.ToArray();
+                projectFileRequest.Name = projectFile.FileName;
+            }
+
+            _projectService.UpdateProject(id, new ProjectRequestDto
+            {
+                Name = name,
+                ProjectFile = projectFileRequest
+            });
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteProject(int projectId)
+        {
+            _projectService.DeleteProject(projectId);
+
+            return NoContent();
+        }
     }
 }

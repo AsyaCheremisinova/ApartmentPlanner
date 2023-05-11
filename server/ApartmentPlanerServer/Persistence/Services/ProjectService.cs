@@ -11,10 +11,12 @@ namespace Persistence.Services
     public class ProjectService : IProjectService
     {
         private readonly IGenericRepository<Project> _projectRepository;
+        private readonly IGenericRepository<File> _fileRepository;
 
         public ProjectService(IUnitOfWork unitOfWork)
         {
             _projectRepository = unitOfWork.ProjectRepository;
+            _fileRepository = unitOfWork.FileRepository;
         }
 
         public ICollection<ProjectResponseDto> GetAllProjects()
@@ -60,6 +62,34 @@ namespace Persistence.Services
                 CreatedAt = project.CreatedAt,
                 LastUpdatedAt = project.LastUpdatedAt
             };
+        }
+
+        public void UpdateProject(int projectId, ProjectRequestDto projectRequestDto)
+        {
+            var project = _projectRepository.GetByID(projectId);
+            if (project == null)
+                throw new NotFoundException(nameof(Project), projectId);
+
+            _fileRepository.Delete(_fileRepository.GetByID(project.FileId));
+
+            project.LastUpdatedAt = DateTime.UtcNow;
+            project.Name = projectRequestDto.Name;
+            project.File = new File
+            {
+                Data = projectRequestDto.ProjectFile.Data,
+                Name = projectRequestDto.ProjectFile.Name
+            };
+
+            _projectRepository.SaveChanges();
+        }
+
+        public void DeleteProject(int projectId)
+        {
+            var project = _projectRepository.GetByID(projectId);
+            if (project == null)
+                throw new NotFoundException(nameof(Project), projectId);
+
+            _projectRepository.Delete(project);
         }
     }
 }

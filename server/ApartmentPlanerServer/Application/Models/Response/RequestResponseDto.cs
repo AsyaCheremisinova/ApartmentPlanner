@@ -6,5 +6,6 @@ namespace Application.Models.Response
     {
         public int Id { get; set; }
         public FurnitureResponseDto Furniture { get; set; }
+        public ICollection<StatusLineResponseDto> StatusLines { get; set; }
     }
 }

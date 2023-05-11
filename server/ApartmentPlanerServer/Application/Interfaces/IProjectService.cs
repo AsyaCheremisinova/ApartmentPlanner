@@ -8,5 +8,7 @@ namespace Application.Interfaces
         public void SetProject(ProjectRequestDto projectRequestDto);
         public ICollection<ProjectResponseDto> GetAllProjects();
         public ProjectResponseDto GetProject(int projectId);
+        public void UpdateProject(int projectId, ProjectRequestDto projectRequestDto);
+        public void DeleteProject(int projectId);
     }
 }

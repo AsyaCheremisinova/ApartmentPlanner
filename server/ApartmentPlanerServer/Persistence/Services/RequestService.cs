@@ -64,7 +64,9 @@ namespace Persistence.Services
         {
             var requests = _requestRepository.GetList()
                 .Include(request => request.Furniture)
-                .Include(request => request.Furniture.Category);
+                .Include(request => request.Furniture.Category)
+                .Include(request => request.RequestStatusLines)
+                .Include(request => request.Statuses);
 
             return requests.Select(request => new RequestResponseDto
                 {
@@ -84,7 +86,18 @@ namespace Persistence.Services
                             Id = request.Furniture.Category.Id,
                             Name = request.Furniture.Category.Name
                         }
-                    }
+                    },
+                    StatusLines = request.RequestStatusLines.Select(line => new StatusLineResponseDto
+                    {
+                        Id = line.Id,
+                        Commentary = line.Commentary,
+                        Date = line.Date,
+                        Status = new StatusResponseDto
+                        {
+                            Id = line.Status.Id,
+                            Name = line.Status.Name
+                        }
+                    }).ToList()
                 })
                 .ToList();
         }

@@ -1,6 +1,4 @@
-﻿using Application.Models.Requests;
-
-namespace Application.Models.Response
+﻿namespace Application.Models.Response
 {
     public class ProjectResponseDto
     {
