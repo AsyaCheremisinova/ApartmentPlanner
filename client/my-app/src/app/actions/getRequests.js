@@ -20,8 +20,19 @@ export const getRequests = () => {
                         category: {
                             id: request.furniture.category.id,
                             name: request.furniture.category.name 
-                        },
-                    }
+                        },                      
+                    },                    
+                    statuseLines: request.statusLines.map((line) => {
+                        return({
+                            id: line.id,
+                            commentary: line.commentary,
+                            date: line.date,
+                            status: {
+                                id: line.status.id,
+                                name: line.status.name
+                            }
+                        })
+                    })  
                 })
             })
 

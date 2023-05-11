@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Header } from './components/header/Header';
 import { RequestUploadForm } from './components/requestForm/RequestUploadForm';
 import { RequestsList } from './components/requestList/RequestsList';
+import { RequestDialogBox } from './components/requestDialog/RequestDialogBox';
 
 export const App = () => {
     return (
@@ -15,6 +16,7 @@ export const App = () => {
                 minHeight:'100%',
                 display: 'flex',
             }}> 
+                <RequestDialogBox/>
                 <Header/>
                 <Routes>
                     <Route path="/" exact element={<RequestsList/>} />

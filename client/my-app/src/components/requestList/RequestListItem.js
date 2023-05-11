@@ -1,8 +1,9 @@
-import { Box, Typography } from "@mui/material"
+import { Box, ButtonBase, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import colors from "../../Themes/colors"
 import { useDispatch } from "react-redux"
 import axios from "axios"
+import { open } from '../../features/requests/requestDialogSlice'
 
 export const RequestsListItem = ({request}) => {
     const [image, setImage] = useState()
@@ -21,8 +22,12 @@ export const RequestsListItem = ({request}) => {
         downloadImage()
     }}, [])
 
+    const handleClick = () => {
+        dispatch(open(request))
+    }
+
     return (
-        <Box sx={{
+        <ButtonBase sx={{
             backgroundColor: colors.lightBrown, 
             height: 250,
             width: 450,
@@ -30,7 +35,7 @@ export const RequestsListItem = ({request}) => {
             boxShadow:8,
             display: 'flex',
             margin: 1
-        }}>
+        }} onClick={handleClick}>
             <Box sx={{
                 borderRadius: 2,
                 height: "100%",
@@ -103,6 +108,6 @@ export const RequestsListItem = ({request}) => {
                     {"Глубина: " + request.furniture.depth}
                 </Typography>
             </Box>
-        </Box>
+        </ButtonBase>
     )
 }
