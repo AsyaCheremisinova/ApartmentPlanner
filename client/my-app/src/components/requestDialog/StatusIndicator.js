@@ -1,14 +1,17 @@
 import { Box, Typography } from "@mui/material"
+import colors from "../../Themes/colors"
 
 export const StatusIndicator = ({status}) => {
 
     const selectColor = () => {
 
         switch (status.id) {
-            case 1: return "blue"
-            case 2: return "red"
-            case 3: return "yellow"
-            default: return "orange"
+            case 1: return colors.statusBlue
+            case 2: return colors.statusOrange
+            case 3: return colors.statusDarkOrange
+            case 4: return colors.statusGreen
+            case 5: return colors.statusRed
+            default: return 
         }
     }
 
@@ -23,6 +26,7 @@ export const StatusIndicator = ({status}) => {
             alignItems: 'center'
         }}>
             <Typography sx={{
+                color: colors.white
             }}>
                 {status.name}
             </Typography>

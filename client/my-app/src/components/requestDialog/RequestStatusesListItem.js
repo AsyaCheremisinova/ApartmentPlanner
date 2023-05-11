@@ -4,12 +4,26 @@ import { StatusIndicator } from "./StatusIndicator"
 
 export const RequestStatusesListItem = ({requestStatus}) => {
 
+    const getDate = () => {
+        let date = new Date(requestStatus.date)
+
+        let day = date.getDay()
+        if (day < 10)
+            day = "0" + day
+        
+        let month = date.getMonth()
+        if (month < 10)
+            month = "0" + month
+        
+        return `${day}.${month}.${date.getFullYear()}`
+    }
+
     return(
         <Box sx={{
             marginBottom: 1,
             width: "98%",
             backgroundColor: colors.brownTwo,
-            height: 180,
+            height: 172,
             borderRadius: 2
         }}>
             <Box sx={{
@@ -22,19 +36,24 @@ export const RequestStatusesListItem = ({requestStatus}) => {
                 <Typography sx={{
 
                 }}>
-                    {"Дата изменения: " + requestStatus.date}
+                    {getDate()}
                 </Typography>
 
                 <StatusIndicator status={requestStatus.status}/>
             </Box>
 
             <Box sx={{
-                height: 130,
-                width: "100%",
+                height: 108,
+                overflow: 'scroll',
+                marginX: 1,
+                backgroundColor: colors.brownTwoAdditional,
+                borderRadius: 2
             }}>    
-                {/* <Typography>
-                    {"Комментарий: " + requestStatus.commentary}
-                </Typography> */}
+                <Typography sx={{
+                    margin: 1
+                }}>
+                    {requestStatus.commentary}
+                </Typography>
             </Box>
         </Box>
     )

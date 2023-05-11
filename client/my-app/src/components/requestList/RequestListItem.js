@@ -83,7 +83,7 @@ export const RequestsListItem = ({request}) => {
                     alignSelf: 'flex-start',
                     marginLeft: 2
                 }}>
-                    {"Ширина: " + request.furniture.width}
+                    {"Ширина: " + request.furniture.width + " см"}
                 </Typography>
                 
                 <Typography noWrap={true} sx={{
@@ -94,7 +94,7 @@ export const RequestsListItem = ({request}) => {
                     alignSelf: 'flex-start',
                     marginLeft: 2
                 }}>
-                    {"Высота: " + request.furniture.height}
+                    {"Высота: " + request.furniture.height + " см"}
                 </Typography>
                 
                 <Typography noWrap={true} sx={{
@@ -105,7 +105,7 @@ export const RequestsListItem = ({request}) => {
                     alignSelf: 'flex-start',
                     marginLeft: 2
                 }}>
-                    {"Глубина: " + request.furniture.depth}
+                    {"Глубина: " + request.furniture.depth + " см"}
                 </Typography>
             </Box>
         </ButtonBase>

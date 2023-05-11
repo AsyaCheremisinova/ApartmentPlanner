@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { Box, ButtonBase, Typography } from "@mui/material"
+import { Box, ButtonBase, Link, Typography } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
 import { close } from '../../features/requests/requestDialogSlice'
 import colors from "../../Themes/colors";
@@ -36,7 +36,7 @@ export const RequestDialog = () => {
             position: "fixed",
             height: 400,
             width: 800,
-            backgroundColor: colors.lightBrown,
+            backgroundColor: colors.brownTwo,
             borderRadius: 2,
             display: 'flex',
             overflow: 'hidden'
@@ -97,21 +97,21 @@ export const RequestDialog = () => {
                             color: colors.white,
                             fontSize: 17,
                         }} noWrap={true}>
-                            {"Ширина: " + request.furniture.width}
+                            {"Ширина: " + request.furniture.width + " см"}
                         </Typography>
                         
                         <Typography sx={{
                             color: colors.white,
                             fontSize: 17,
                         }} noWrap={true}>
-                            {"Высота: " + request.furniture.height}
+                            {"Высота: " + request.furniture.height + " см"}
                         </Typography>
                         
                         <Typography sx={{
                             color: colors.white,
                             fontSize: 17,
                         }} noWrap={true}>
-                            {"Глубина: " + request.furniture.depth}
+                            {"Глубина: " + request.furniture.depth + " см"}
                         </Typography>
 
                         
@@ -120,7 +120,13 @@ export const RequestDialog = () => {
                             fontSize: 17,
                             marginTop: 3
                         }} noWrap={true}>
-                            {"Ссылка на товар: " + request.furniture.link}
+                            <Link
+                                href={request.furniture.link}
+                                underline="none" sx={{
+                                color: colors.white
+                            }}>
+                                {"Ссылка на товар: " + request.furniture.link}
+                            </Link>
                         </Typography>
 
                         <Typography sx={{
