@@ -78,10 +78,10 @@ namespace ApartmentPlanerServer.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
-        public IActionResult DeleteProject(int projectId)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteProject(int id)
         {
-            _projectService.DeleteProject(projectId);
+            _projectService.DeleteProject(id);
 
             return NoContent();
         }
