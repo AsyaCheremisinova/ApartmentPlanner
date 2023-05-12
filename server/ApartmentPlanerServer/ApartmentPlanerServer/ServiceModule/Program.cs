@@ -1,7 +1,9 @@
 using ApartmentPlanerServer.ServiceModule;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Persistence.Options;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +15,18 @@ builder.Services.Configure<AuthOptions>(
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 
 builder.Services.AddServices();
 
@@ -45,12 +58,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
     app.UseCors(builder => builder
-        .WithOrigins("http://localhost:5000", "http://localhost:3000")
         .AllowAnyHeader()
         .WithExposedHeaders("Content-Disposition")
         .AllowAnyMethod()
         .SetIsOriginAllowed(_ => true)
         .AllowCredentials()
+        .WithOrigins("http://localhost:3000")
     );
 }
 

@@ -15,8 +15,9 @@ namespace ApartmentPlanerServer.Controllers
             _authService = authService;
         }
 
-        [HttpGet]
-        public ActionResult<string> GetToken([FromQuery] LoginUserRequestDto user)
+        [HttpPost]
+        [Route("login")]
+        public ActionResult<string> GetToken(LoginUserRequestDto user)
         {
             var token = _authService.CreateToken(user);
 
@@ -24,6 +25,7 @@ namespace ApartmentPlanerServer.Controllers
         }
 
         [HttpPost]
+        [Route("register")]
         public IActionResult Register(RegisterUserRequestDto user)
         {
             _authService.RegisterClient(user);
