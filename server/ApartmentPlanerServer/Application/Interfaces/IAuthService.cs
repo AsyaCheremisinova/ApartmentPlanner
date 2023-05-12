@@ -5,6 +5,6 @@ namespace Application.Interfaces
     public interface IAuthService
     {
         public string CreateToken(LoginUserRequestDto userRequestDto);
-        public void RegisterClient(RegisterUserRequestDto requestDto);
+        public void RegisterUser(RegisterUserRequestDto registerUserRequest, int roleId);
     }
 }

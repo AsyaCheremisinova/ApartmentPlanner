@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Isopoh.Cryptography.Argon2;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.DbContext
@@ -21,6 +22,15 @@ namespace Persistence.DbContext
                 new Status { Id = 3, Name = "Возвращена на редактирование" },
                 new Status { Id = 4, Name = "Принята" },
                 new Status { Id = 5, Name = "Отклонена" });
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, Name = "Admin" },
+                new Role { Id = 2, Name = "Designer" },
+                new Role { Id = 3, Name = "Editor" },
+                new Role { Id = 4, Name = "UnityUser" });
+
+            modelBuilder.Entity<User>().HasData(
+                new User { Id = 1, Login = "admin", Name = "admin", RoleId = 1, Password = Argon2.Hash("admin"), Email = "admin@admin.com" });
         }
     }
 }

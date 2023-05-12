@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApartmentPlanerServer.Controllers
@@ -25,10 +26,21 @@ namespace ApartmentPlanerServer.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
-        public IActionResult Register(RegisterUserRequestDto user)
+        [Authorize(Roles = "Admin")]
+        [Route("register/editor")]
+        public IActionResult RegisterEditor(RegisterUserRequestDto user)
         {
-            _authService.RegisterClient(user);
+            _authService.RegisterUser(user, 3);
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Route("register/designer")]
+        public IActionResult RegisterDesigner(RegisterUserRequestDto user)
+        {
+            _authService.RegisterUser(user, 2);
 
             return NoContent();
         }

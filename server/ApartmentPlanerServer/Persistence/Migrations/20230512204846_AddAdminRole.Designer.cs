@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.DbContext;
@@ -11,9 +12,11 @@ using Persistence.DbContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(IPlannerDbContext))]
-    partial class IPlannerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230512204846_AddAdminRole")]
+    partial class AddAdminRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,7 +206,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 12, 20, 54, 20, 977, DateTimeKind.Utc).AddTicks(6106));
+                        .HasDefaultValue(new DateTime(2023, 5, 12, 20, 48, 46, 717, DateTimeKind.Utc).AddTicks(8334));
 
                     b.Property<int>("RequestId")
                         .HasColumnType("integer");
@@ -347,7 +350,7 @@ namespace Persistence.Migrations
                             Email = "admin@admin.com",
                             Login = "admin",
                             Name = "admin",
-                            Password = "$argon2id$v=19$m=65536,t=3,p=1$yzeYYFOcJb2SnfrOmTOYCQ$60+Lg/aJaEoGvEiz9bx562Rd3n08+fSzQFgrk3l5m0I",
+                            Password = "admin",
                             RoleId = 1
                         });
                 });

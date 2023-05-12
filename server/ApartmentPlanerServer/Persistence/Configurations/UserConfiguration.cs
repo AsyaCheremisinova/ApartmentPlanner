@@ -25,9 +25,9 @@ namespace Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(45);
 
-            //builder.HasOne(user => user.Role)
-            //    .WithMany(role => role.Users)
-            //    .IsRequired();
+            builder.HasOne(user => user.Role)
+                .WithMany(role => role.Users)
+                .IsRequired();
         }
     }
 }
