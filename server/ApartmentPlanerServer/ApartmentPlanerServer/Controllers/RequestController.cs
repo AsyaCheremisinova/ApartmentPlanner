@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
 using Application.Models.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApartmentPlanerServer.Controllers
@@ -55,6 +56,7 @@ namespace ApartmentPlanerServer.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Editor, Designer")]
         public ICollection<RequestResponseDto> GetAllRequests()
         {
             return _requestService.GetAllRequests();

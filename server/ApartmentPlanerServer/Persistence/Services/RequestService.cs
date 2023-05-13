@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Application.Models.Requests;
 using Application.Models.Response;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using File = Domain.Entities.File;
 
@@ -16,14 +17,16 @@ namespace Persistence.Services
         private readonly IGenericRepository<Category> _categoryRepository;
         private readonly IGenericRepository<Furniture> _furnitureRepository;
         private readonly IGenericRepository<RequestStatusLine> _requestStatusLineRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public RequestService(IUnitOfWork unitOfWork)
+        public RequestService(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
             _furnitureRepository = unitOfWork.FurnitureRepository;
             _requestRepository = unitOfWork.RequestRepository;
             _statusRepository = unitOfWork.StatusRepository;
             _categoryRepository = unitOfWork.CategoryRepository;
             _requestStatusLineRepository = unitOfWork.RequestStatusLineRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public void SetRequest(CreateRequestRequestDto requestDto)

@@ -1,10 +1,18 @@
 import { setAllRequests } from "../../features/requests/requestsSlice"
 import axios from 'axios'
+import store from "../store"
 
 export const getRequests = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Request`)
+            const token = store.getState().user.token
+            
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Request`, {
+                headers: {
+                    Authorization: token
+                }
+            })
+            
             const requests = response.data.map((request) => {
                 return({
                     id: request.id,

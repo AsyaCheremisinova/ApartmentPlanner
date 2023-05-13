@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
+using Application.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,9 @@ namespace ApartmentPlanerServer.Controllers
 
         [HttpPost]
         [Route("login")]
-        public ActionResult<string> GetToken(LoginUserRequestDto user)
+        public ActionResult<UserResponseDto> GetToken(LoginUserRequestDto user)
         {
-            var token = _authService.CreateToken(user);
+            var token = _authService.Login(user);
 
             return Ok(token);
         }

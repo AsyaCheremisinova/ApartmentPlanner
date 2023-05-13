@@ -13,7 +13,11 @@ const colors = {
     statusGreen: "#34E38A",
     statusRed: "#E32912",
     statusOrange: "#E3A329",
-    statusDarkOrange: "#E36D1D"
+    statusDarkOrange: "#E36D1D",
+    roleBlue: "#0763E3",
+    roleGreen: "#34E38A",
+    roleOrange: "#E3A329",
+    roleDarkOrange: "#E36D1D"
 }
 
 export default colors;

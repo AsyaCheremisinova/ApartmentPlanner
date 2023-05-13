@@ -2,8 +2,10 @@
 using Application.Common.Interfaces;
 using Application.Interfaces;
 using Application.Models.Requests;
+using Application.Models.Response;
 using Domain.Entities;
 using Isopoh.Cryptography.Argon2;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -18,14 +20,17 @@ namespace Persistence.Services
     {
         private readonly IGenericRepository<User> _userRepository;
         private readonly AuthOptions _options;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(IUnitOfWork unitOfWork, IOptions<AuthOptions> options)
+        public AuthService(IUnitOfWork unitOfWork, IOptions<AuthOptions> options,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = unitOfWork.UserRepository;
             _options = options.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public string CreateToken(LoginUserRequestDto userRequestDto)
+        public UserResponseDto Login(LoginUserRequestDto userRequestDto)
         {
             var user = ValidatePersonCredentialsAndThrow(userRequestDto);
 
@@ -34,6 +39,7 @@ namespace Persistence.Services
             {
                 Subject = new ClaimsIdentity(new[]
                     {
+                        new Claim("Id", user.Id.ToString()),
                         new Claim(ClaimTypes.Name, user.Name),
                         new Claim(ClaimTypes.Role, user.Role.Name)
                     }),
@@ -47,7 +53,16 @@ namespace Persistence.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwtToken = tokenHandler.WriteToken(token);
-            return jwtToken;
+            
+            return new UserResponseDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Login = user.Login,
+                Name = user.Name,
+                RoleId = user.RoleId,
+                Token = jwtToken
+            };
         }
 
         public void RegisterUser(RegisterUserRequestDto registerUserRequest, int roleId)

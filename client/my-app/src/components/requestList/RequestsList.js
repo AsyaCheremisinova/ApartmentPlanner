@@ -16,14 +16,7 @@ export const RequestsList = () => {
     }, [])
 
     return(
-        <Box sx={{
-            paddingTop: "90px",
-            backgroundColor: colors.lightGray,
-            display: 'flex',            
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-        }}>
+        <>
             <RequestsListHeader/>
 
             <Box sx={{
@@ -35,6 +28,6 @@ export const RequestsList = () => {
             }}>
                 {requests.map((request) => <RequestsListItem key={request.id} request={request}/>)}
             </Box>
-        </Box>
+        </>
     )
 }
