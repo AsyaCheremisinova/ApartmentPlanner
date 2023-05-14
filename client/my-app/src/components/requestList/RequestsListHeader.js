@@ -2,10 +2,11 @@ import { Box, ButtonBase, Typography } from "@mui/material"
 import colors from "../../Themes/colors"
 import { Link } from "react-router-dom"
 import { clearRequest } from "../../features/requests/requestFormSlice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 export const RequestsListHeader = () => {
 
+    const roleId = useSelector(store => store.user.user.roleId)
     const dispatch = useDispatch()
 
     return(
@@ -13,21 +14,23 @@ export const RequestsListHeader = () => {
             height:'10%',
             display: 'flex',            
             flexDirection: 'row',
+            padding: 1,
             width: "60%",
-            p: 1,
-            alignItems: 'center'
+            alignItems: 'center',
+            justifyContent: 'space-between'
         }}>
+
+            {roleId === 2
+            ? 
+            <>
             <Typography sx={{
-                width:'70%',
                 fontSize: 30,
                 color: colors.brown,
                 fontWeight:'bold'
             }}>
                 СПИСОК ЗАЯВОК
             </Typography>
-
             <Box sx={{
-                width: '30%',
                 display: "flex",
                 justifyContent: 'flex-end',
                 alignItems: 'center'
@@ -54,6 +57,21 @@ export const RequestsListHeader = () => {
                     </ButtonBase>
                 </Link>
             </Box>
+            </>
+            : 
+            <Box sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center'
+            }}>
+                <Typography sx={{
+                    fontSize: 30,
+                    color: colors.brown,
+                    fontWeight:'bold',
+                }}>
+                    СПИСОК ЗАЯВОК
+                </Typography>
+            </Box>}
         </Box>
     )
 }
