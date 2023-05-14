@@ -6,16 +6,9 @@ export const RequestStatusesListItem = ({requestStatus}) => {
 
     const getDate = () => {
         let date = new Date(requestStatus.date)
+            .toLocaleDateString("ru")
 
-        let day = date.getDay()
-        if (day < 10)
-            day = "0" + day
-        
-        let month = date.getMonth()
-        if (month < 10)
-            month = "0" + month
-        
-        return `${day}.${month}.${date.getFullYear()}`
+        return(date)
     }
 
     return(

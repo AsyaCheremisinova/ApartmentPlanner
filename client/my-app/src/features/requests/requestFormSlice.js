@@ -9,7 +9,9 @@ const initialState = {
         depth: ""
     },
     categories: [],
-    selectedCategory: 0,
+    selectedCategory: 1,
+    requestIsNew: true,
+    requestId: 0
 } 
 
 export const requestFormSlice = createSlice({
@@ -24,10 +26,17 @@ export const requestFormSlice = createSlice({
         },
         setFurnitureInfo: (state, action) => {
             state.furniture = action.payload
+        },
+        setRequestId: (state, action) => {
+            state.requestIsNew = false
+            state.requestId = action.payload
+        },
+        clearRequest: (state) => {
+            state = initialState
         }
     },
 })
 
-export const { setAllCategories, setSelectedCategory, setFurnitureInfo } = requestFormSlice.actions
+export const { setAllCategories, setSelectedCategory, setFurnitureInfo, setRequestId, clearRequest } = requestFormSlice.actions
 
 export default requestFormSlice.reducer

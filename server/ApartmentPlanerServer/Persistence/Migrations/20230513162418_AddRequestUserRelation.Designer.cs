@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.DbContext;
@@ -11,9 +12,11 @@ using Persistence.DbContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(IPlannerDbContext))]
-    partial class IPlannerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230513162418_AddRequestUserRelation")]
+    partial class AddRequestUserRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Не выбрано"
+                            Name = "Диваны"
                         },
                         new
                         {
@@ -70,11 +73,6 @@ namespace Persistence.Migrations
                         {
                             Id = 6,
                             Name = "Домашние растения"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Диваны"
                         });
                 });
 
@@ -213,7 +211,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 13, 20, 30, 35, 232, DateTimeKind.Utc).AddTicks(4990));
+                        .HasDefaultValue(new DateTime(2023, 5, 13, 16, 24, 17, 543, DateTimeKind.Utc).AddTicks(9445));
 
                     b.Property<int>("RequestId")
                         .HasColumnType("integer");
@@ -357,7 +355,7 @@ namespace Persistence.Migrations
                             Email = "admin@admin.com",
                             Login = "admin",
                             Name = "admin",
-                            Password = "$argon2id$v=19$m=65536,t=3,p=1$a0qAj16fXETKbBt3AWaLJQ$ZZ6hK2WimvvCwfp89Ta6XKVWWpkCvtmll5iMx1xVEoE",
+                            Password = "$argon2id$v=19$m=65536,t=3,p=1$rjO5yQUvrf6wNRM4SxfEHg$LqUGb4m5w1Y92HByAhopTJpNRh+cXmfDY155QFyit78",
                             RoleId = 1
                         });
                 });

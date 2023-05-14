@@ -2,10 +2,12 @@ import { Box, ButtonBase, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import colors from "../../Themes/colors"
 import { makeNewRequest } from '../../app/actions/makeNewRequest'
+import { open } from "../../features/requests/requestMessageSlice"
 
 export const RequestSendBlock = ({data}) => {
     const furniture = useSelector(store => store.requestForm.furniture)
     const selectedCategory = useSelector(store => store.requestForm.selectedCategory)
+    const requestIsNew = useSelector(store => store.requestForm.requestIsNew)
     const dispatch = useDispatch()
 
     const handleSave = () => {
@@ -15,6 +17,10 @@ export const RequestSendBlock = ({data}) => {
             image: data.image,
             sourceFile: data.sourceFile
         }))
+    }
+
+    const handleSend = () => {
+        dispatch(open())
     }
 
     return( 
@@ -56,16 +62,17 @@ export const RequestSendBlock = ({data}) => {
                 alignItems: "center"
             }}>                
                 <ButtonBase onClick={() =>
-                    handleSave()
+                    handleSend()
                 } sx={{
                     width: 160,
                     height: 50,
                     borderRadius: 2,
                     padding: 1,
                     boxShadow: 1,
-                    backgroundColor: colors.lightBrown,
+                    backgroundColor: requestIsNew ? colors.brownTwoAdditional : colors.lightBrown,
+                    opacity: requestIsNew ? 0.7 : 1,
                     margin: 1
-                }}>
+                }} disabled={requestIsNew}>
                     <Typography sx={{
                         color: colors.white
                     }}>

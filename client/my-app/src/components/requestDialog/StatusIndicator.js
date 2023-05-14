@@ -17,7 +17,7 @@ export const StatusIndicator = ({status}) => {
 
     return(
         <Box sx={{
-            width: 100,
+            width: 160,
             height: 40,
             borderRadius: 2,
             backgroundColor: selectColor(),

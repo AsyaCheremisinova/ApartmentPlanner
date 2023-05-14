@@ -6,14 +6,15 @@ import { DescriptionBlock } from './DescriptionBlock';
 import { ParametersBlock } from './ParametersBlock';
 import { FilesUploadBlock } from './FilesUploadBlock';
 import { RequestSendBlock } from './RequestSendBlock';
+import { RequestMessageBox } from '../requestMessage/RequestMessageBox'
 
 export const RequestUploadForm = () => { 
     const [image, setImage] = useState()
     const [sourceFile, setSourceFile] = useState()
 
     return (
-        <Box sx={{ 
-            paddingTop: "90px",
+        <>
+        <Box sx={{
             width: '100%',        
             backgroundImage: `url(${img2})`,
             backgroundSize: "100%"
@@ -43,9 +44,17 @@ export const RequestUploadForm = () => {
                 <RequestSendBlock data={{
                     image: image,
                     sourceFile: sourceFile
-                }}/>        
+                }}/>
+                     
             </Box>
+            
         </Box>
+        
+        <RequestMessageBox data={{
+            image: image,
+            sourceFile: sourceFile
+        }}/>
+        </>
     )
 }
                

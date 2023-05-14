@@ -16,6 +16,10 @@ export const getRequests = () => {
             const requests = response.data.map((request) => {
                 return({
                     id: request.id,
+                    user: {
+                        id: request.user.id,
+                        name: request.user.name
+                    },
                     furniture: {
                         id: request.furniture.id,
                         name: request.furniture.name,

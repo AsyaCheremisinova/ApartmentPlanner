@@ -9,6 +9,7 @@
         }
 
         public int Id { get; set; }
+        public User User { get; set; }
         public int FurnitureId { get; set; }
         public Furniture Furniture { get; set; }
         public ICollection<Status> Statuses { get; set; }

@@ -7,6 +7,7 @@ import axios from "axios"
 import { useEffect, useState } from "react";
 import { DownloadButton } from "./DownloadButton";
 import { RequestDialogStory } from "./RequestDialogStory";
+import { changeRequestStatus } from "../../app/actions/putRequest";
 
 export const RequestDialog = () => {
     const [image, setImage] = useState()
@@ -29,6 +30,10 @@ export const RequestDialog = () => {
 
     const handleClose = () => {
         dispatch(close())
+    }
+
+    const handleAccept = () => {
+        dispatch(changeRequestStatus(4, request.id, "Заявка принята"))
     }
 
     return(
@@ -134,7 +139,7 @@ export const RequestDialog = () => {
                             fontSize: 17,
                             marginTop: 3
                         }} noWrap={true}>
-                            {"Дизайнер: Иванов Иван"}
+                            {"Дизайнер: " + request.user.name}
                         </Typography>
                     </Box>
                 </Box>
@@ -159,7 +164,7 @@ export const RequestDialog = () => {
                         padding: 1,
                         boxShadow: 1,
                         backgroundColor: colors.brown,
-                    }}>
+                    }} onClick={() => handleAccept()}>
                         <Typography sx={{
                             color: colors.white
                         }}>

@@ -27,6 +27,8 @@ namespace Persistence.Configurations
                         line.Property(item => item.Commentary)
                             .HasDefaultValue(string.Empty);
                     });
+
+            builder.HasOne(request => request.User);
         }
     }
 }

@@ -9,12 +9,13 @@ namespace Persistence.DbContext
         public void SeedData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "Диваны" },
+                new Category { Id = 1, Name = "Не выбрано" },
                 new Category { Id = 2, Name = "Столы" },
                 new Category { Id = 3, Name = "Стулья" },
                 new Category { Id = 4, Name = "Кровати" },
                 new Category { Id = 5, Name = "Интерьер" },
-                new Category { Id = 6, Name = "Домашние растения" });
+                new Category { Id = 6, Name = "Домашние растения" },
+                new Category { Id = 7, Name = "Диваны" });
 
             modelBuilder.Entity<Status>().HasData(
                 new Status { Id = 1, Name = "Черновик" },

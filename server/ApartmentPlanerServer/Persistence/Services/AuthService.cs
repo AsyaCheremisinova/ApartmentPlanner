@@ -83,6 +83,20 @@ namespace Persistence.Services
             });
         }
 
+        public User GetCurrentUser()
+        {
+            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
+                .Where(claim => claim.Type == "Id")
+                .First().Value;
+            var userId = int.Parse(userIdClaim);
+
+            var user = _userRepository.GetByID(userId);
+            if (user == null)
+                throw new NotFoundException(nameof(User), userId);
+
+            return user;
+        }
+
         private User ValidatePersonCredentialsAndThrow(LoginUserRequestDto userRequestDto)
         {
             var user = _userRepository.GetList()

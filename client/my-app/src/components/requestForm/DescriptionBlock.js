@@ -93,9 +93,6 @@ export const DescriptionBlock = () => {
                         onChange={handleChange} 
                         value={selectedCategory}
                     >
-                        <MenuItem key={0} value={0}>
-                            Не выбрано
-                        </MenuItem>
                         {categories.map((category) => 
                             <MenuItem key={category.id} value={category.id}>
                                 {category.name}

@@ -18,8 +18,10 @@ namespace Persistence.Services
         private readonly IGenericRepository<Furniture> _furnitureRepository;
         private readonly IGenericRepository<RequestStatusLine> _requestStatusLineRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IAuthService _authService;
 
-        public RequestService(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+        public RequestService(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor,
+            IAuthService authService)
         {
             _furnitureRepository = unitOfWork.FurnitureRepository;
             _requestRepository = unitOfWork.RequestRepository;
@@ -27,10 +29,13 @@ namespace Persistence.Services
             _categoryRepository = unitOfWork.CategoryRepository;
             _requestStatusLineRepository = unitOfWork.RequestStatusLineRepository;
             _httpContextAccessor = httpContextAccessor;
+            _authService = authService;
         }
 
-        public void SetRequest(CreateRequestRequestDto requestDto)
+        public int SetRequestAndGetItsId(CreateRequestRequestDto requestDto)
         {
+            var designer = _authService.GetCurrentUser();
+
             var request = new Request
             {
                 Furniture = new Furniture
@@ -51,27 +56,80 @@ namespace Persistence.Services
                     Height = requestDto.Furniture.Height,
                     ProductLink = requestDto.Furniture.ProductLink,
                     Category = FindCategoryById(requestDto.Furniture.CategoryId),
-                }
+                },
+                User = designer
             };
 
             var status = _statusRepository.GetByID(1);
 
             _requestStatusLineRepository.Insert(new RequestStatusLine
             {
+                Date = DateTime.UtcNow,
                 Request = request,
+                Status = status
+            });
+
+            return request.Id;
+        }
+
+        public void UpdateRequest(int id, string message, CreateRequestRequestDto requestDto)
+        {
+            var designer = _authService.GetCurrentUser();
+
+            var request = new Request
+            {
+                Id = id,
+                Furniture = new Furniture
+                {
+                    Name = requestDto.Furniture.Name,
+                    Image = new File
+                    {
+                        Data = requestDto.Furniture.Image.Data,
+                        Name = requestDto.Furniture.Image.Name
+                    },
+                    SourceFile = new File
+                    {
+                        Data = requestDto.Furniture.SourceFile.Data,
+                        Name = requestDto.Furniture.SourceFile.Name
+                    },
+                    Depth = requestDto.Furniture.Depth,
+                    Width = requestDto.Furniture.Width,
+                    Height = requestDto.Furniture.Height,
+                    ProductLink = requestDto.Furniture.ProductLink,
+                    Category = FindCategoryById(requestDto.Furniture.CategoryId),
+                },
+                User = designer
+            };
+
+            _requestRepository.Update(request);
+
+            var status = _statusRepository.GetByID(2); // "Обрабатывается"
+
+            _requestStatusLineRepository.Insert(new RequestStatusLine
+            {
+                Request = request,
+                Commentary = message,
                 Status = status
             });
         }
 
         public ICollection<RequestResponseDto> GetAllRequests()
         {
+            var user = _authService.GetCurrentUser();
+            var isDesigner = user.RoleId == 2 // "Дизайнер"
+                ? true
+                : false;
+
+
             var requests = _requestRepository.GetList()
                 .Include(request => request.Furniture)
                 .Include(request => request.Furniture.Category)
                 .Include(request => request.RequestStatusLines)
-                .Include(request => request.Statuses);
+                .Include(request => request.Statuses)
+                .Include(request => request.User);
 
-            return requests.Select(request => new RequestResponseDto
+            return requests
+                .Select(request => new RequestResponseDto
                 {
                     Id = request.Id,
                     Furniture = new FurnitureResponseDto
@@ -90,18 +148,29 @@ namespace Persistence.Services
                             Name = request.Furniture.Category.Name
                         }
                     },
-                    StatusLines = request.RequestStatusLines.Select(line => new StatusLineResponseDto
+                    User = new DesignerResponseDto
                     {
-                        Id = line.Id,
-                        Commentary = line.Commentary,
-                        Date = line.Date,
-                        Status = new StatusResponseDto
+                        Id = request.User.Id,
+                        Name = request.User.Name,
+                    },
+                    StatusLines = request.RequestStatusLines
+                        .Select(line => new StatusLineResponseDto
                         {
-                            Id = line.Status.Id,
-                            Name = line.Status.Name
-                        }
-                    }).ToList()
+                            Id = line.Id,
+                            Commentary = line.Commentary,
+                            Date = line.Date,
+                            Status = new StatusResponseDto
+                            {
+                                Id = line.Status.Id,
+                                Name = line.Status.Name
+                            }
+                        })
+                        .OrderByDescending(line => line.Date)
+                        .ToList()
                 })
+                .Where(request =>
+                    isDesigner && request.User.Id == user.Id ||
+                    !isDesigner && request.StatusLines.First().Status.Id != 1) // Скрыть черновики от редактора
                 .ToList();
         }
 
@@ -119,16 +188,16 @@ namespace Persistence.Services
             {
                 Commentary = requestDto.Commentary,
                 Request = request,
-                Status = status
+                Status = status,
+                Date = DateTime.UtcNow
             });
         }
 
         private Category FindCategoryById(int id)
         {
             var category = _categoryRepository.GetByID(id);
-            
             if (category == null)
-                throw new BadRequestException();
+                throw new NotFoundException(nameof(Category), id);
             
             return category;
         }
