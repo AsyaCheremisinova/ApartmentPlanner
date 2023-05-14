@@ -10,7 +10,7 @@ export const RequestMessageBox = ({data}) => {
         <>{isOpen === true ? 
             <Box sx={{
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                position: 'fixed',
+                position: 'absolute',
                 width: '100%',
                 minHeight:"100%",
                 m: 0,

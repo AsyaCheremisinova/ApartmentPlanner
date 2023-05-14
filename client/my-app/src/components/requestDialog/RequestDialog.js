@@ -5,9 +5,9 @@ import { close } from '../../features/requests/requestDialogSlice'
 import colors from "../../Themes/colors";
 import axios from "axios"
 import { useEffect, useState } from "react";
-import { DownloadButton } from "./DownloadButton";
 import { RequestDialogStory } from "./RequestDialogStory";
-import { changeRequestStatus } from "../../app/actions/putRequest";
+import { RequestDialogButtons } from "./RequestDialogButtons";
+import { RequestMessageBox } from "../requestMessage/RequestMessageBox";
 
 export const RequestDialog = () => {
     const [image, setImage] = useState()
@@ -25,18 +25,14 @@ export const RequestDialog = () => {
             })
         }
         downloadImage()
-        console.log(request)
     }}, [])
 
     const handleClose = () => {
         dispatch(close())
     }
 
-    const handleAccept = () => {
-        dispatch(changeRequestStatus(4, request.id, "Заявка принята"))
-    }
-
     return(
+        <>
         <Box sx={{
             position: "fixed",
             height: 400,
@@ -149,45 +145,13 @@ export const RequestDialog = () => {
                     height: 50,
                     display: "flex",
                     flexDirection: 'row',
-                    justifyContent: 'space-between',
-
+                    justifyContent: 'space-evenly',
                 }}> 
-                    <DownloadButton 
-                        fileId={request.furniture.sourceFileId} 
-                        requestName={request.furniture.name}
-                    />
-
-                    <ButtonBase sx={{
-                        width: 130,
-                        height: 50,
-                        borderRadius: 2,
-                        padding: 1,
-                        boxShadow: 1,
-                        backgroundColor: colors.brown,
-                    }} onClick={() => handleAccept()}>
-                        <Typography sx={{
-                            color: colors.white
-                        }}>
-                            Принять
-                        </Typography>
-                    </ButtonBase>
-                    
-                    <ButtonBase sx={{
-                        width: 130,
-                        height: 50,
-                        borderRadius: 2,
-                        padding: 1,
-                        boxShadow: 1,
-                        backgroundColor: colors.brown,
-                    }}>
-                        <Typography sx={{
-                            color: colors.white
-                        }}>
-                            Отклонить
-                        </Typography>
-                    </ButtonBase>
+                    <RequestDialogButtons/>
                 </Box>
             </Box>
+        <RequestMessageBox/>
         </Box>
+        </>
     )
 }

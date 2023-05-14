@@ -2,15 +2,17 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     isOpen: false,
-    requestMessage: ""
+    requestMessage: "",
+    targetStatusId: 1
 } 
 
 export const requestMessageSlice = createSlice({
     name: 'requestMessage',
     initialState: initialState,
     reducers: {
-        open: (state) => {
+        open: (state, action) => {
             state.isOpen = true
+            state.targetStatusId = action.payload
         },
         close: (state) => {
             state.isOpen = false

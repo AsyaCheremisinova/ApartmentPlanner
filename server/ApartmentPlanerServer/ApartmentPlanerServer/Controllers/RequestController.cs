@@ -98,7 +98,15 @@ namespace ApartmentPlanerServer.Controllers
         public IActionResult UpdateRequestStatus(int id, RequestStatusLineRequestDto requestDto)
         {
             _requestService.UpdateRequestStatus(id, requestDto);
-            return Ok();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Designer")]
+        public IActionResult DeleteRequest(int id)
+        {
+            _requestService.DeleteRequest(id);
+            return NoContent();
         }
 
         private async Task<FileRequestDto> GetFileRequest(IFormFile? file)

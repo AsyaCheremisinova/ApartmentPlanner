@@ -15,7 +15,7 @@ export const RequestStatusesList = () => {
             width: '100%',
             overflow: 'scroll',
         }}>
-            {request.statuseLines.map((requestStatus) => 
+            {request.statusLines.map((requestStatus) => 
                 <RequestStatusesListItem 
                     key={requestStatus.id} 
                     requestStatus={requestStatus}

@@ -19,7 +19,8 @@ export const DownloadButton = ({fileId, requestName}) => {
             padding: 1,
             boxShadow: 1,
             width: 50,
-            height: 50
+            height: 50,
+            margin: 0.5
         }}>
             <DownloadRoundedIcon sx={{
                 color: colors.white

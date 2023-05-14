@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import img2 from '../../assets/houses.jpg'
 import { useState } from 'react';
@@ -44,8 +44,7 @@ export const RequestUploadForm = () => {
                 <RequestSendBlock data={{
                     image: image,
                     sourceFile: sourceFile
-                }}/>
-                     
+                }}/>                     
             </Box>
             
         </Box>

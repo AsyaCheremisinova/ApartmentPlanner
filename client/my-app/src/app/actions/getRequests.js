@@ -34,7 +34,7 @@ export const getRequests = () => {
                             name: request.furniture.category.name 
                         },                      
                     },                    
-                    statuseLines: request.statusLines.map((line) => {
+                    statusLines: request.statusLines.map((line) => {
                         return({
                             id: line.id,
                             commentary: line.commentary,

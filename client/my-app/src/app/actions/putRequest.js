@@ -41,10 +41,8 @@ export const putRequest = (request) => {
 
 
 export const changeRequestStatus = (status, requestId, commentary) => {
-    return async (dispatch) => {
+    return async () => {
         try {
-            console.log();
-
             const token = store.getState().user.token
 
             await axios.put(`${process.env.REACT_APP_API_URL}/api/Request/status/${requestId}`, {
@@ -57,7 +55,7 @@ export const changeRequestStatus = (status, requestId, commentary) => {
             })
 
         } catch (error) {
-
+            console.error(error)
         }
     }
 }

@@ -6,7 +6,7 @@ export const RequestDialogBox = () => {
     const isOpen = useSelector(store => store.requestDialog.isOpen)
 
     return(
-        <>{isOpen === true ? 
+        <>{isOpen === true ?
             <Box sx={{
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 position: 'fixed',
@@ -19,7 +19,8 @@ export const RequestDialogBox = () => {
                 display: "flex"
             }}>
                 <RequestDialog/>
-            </Box> : null}
+            </Box>
+            : null}
         </>
     )
 }

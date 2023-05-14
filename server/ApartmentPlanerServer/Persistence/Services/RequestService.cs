@@ -16,6 +16,7 @@ namespace Persistence.Services
         private readonly IGenericRepository<Status> _statusRepository;
         private readonly IGenericRepository<Category> _categoryRepository;
         private readonly IGenericRepository<Furniture> _furnitureRepository;
+        private readonly IGenericRepository<File> _fileRepository;
         private readonly IGenericRepository<RequestStatusLine> _requestStatusLineRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAuthService _authService;
@@ -27,6 +28,7 @@ namespace Persistence.Services
             _requestRepository = unitOfWork.RequestRepository;
             _statusRepository = unitOfWork.StatusRepository;
             _categoryRepository = unitOfWork.CategoryRepository;
+            _fileRepository = unitOfWork.FileRepository;
             _requestStatusLineRepository = unitOfWork.RequestStatusLineRepository;
             _httpContextAccessor = httpContextAccessor;
             _authService = authService;
@@ -75,38 +77,58 @@ namespace Persistence.Services
         public void UpdateRequest(int id, string message, CreateRequestRequestDto requestDto)
         {
             var designer = _authService.GetCurrentUser();
+            var request = _requestRepository.GetByID(id);
 
-            var request = new Request
+            if (requestDto.Furniture.Image == null)
             {
-                Id = id,
-                Furniture = new Furniture
-                {
-                    Name = requestDto.Furniture.Name,
-                    Image = new File
-                    {
-                        Data = requestDto.Furniture.Image.Data,
-                        Name = requestDto.Furniture.Image.Name
-                    },
-                    SourceFile = new File
-                    {
-                        Data = requestDto.Furniture.SourceFile.Data,
-                        Name = requestDto.Furniture.SourceFile.Name
-                    },
-                    Depth = requestDto.Furniture.Depth,
-                    Width = requestDto.Furniture.Width,
-                    Height = requestDto.Furniture.Height,
-                    ProductLink = requestDto.Furniture.ProductLink,
-                    Category = FindCategoryById(requestDto.Furniture.CategoryId),
-                },
-                User = designer
-            };
+                var furniture = _furnitureRepository.GetByID(request.FurnitureId);
+                var image = _fileRepository.GetByID(furniture.ImageId);
 
-            _requestRepository.Update(request);
+                requestDto.Furniture.Image = new FileRequestDto
+                {
+                    Data = image.Data,
+                    Name = image.Name
+                };
+            }
+
+            if (requestDto.Furniture.SourceFile == null)
+            {
+                var furniture = _furnitureRepository.GetByID(request.FurnitureId);
+                var sourceFile = _fileRepository.GetByID(furniture.SourceFileId);
+
+                requestDto.Furniture.SourceFile = new FileRequestDto
+                {
+                    Data = sourceFile.Data,
+                    Name = sourceFile.Name
+                };
+            }
+
+            request.User = designer;
+            request.Furniture = new Furniture
+            {
+                Name = requestDto.Furniture.Name,
+                Image = new File
+                {
+                    Data = requestDto.Furniture.Image.Data,
+                    Name = requestDto.Furniture.Image.Name
+                },
+                SourceFile = new File
+                {
+                    Data = requestDto.Furniture.SourceFile.Data,
+                    Name = requestDto.Furniture.SourceFile.Name
+                },
+                Depth = requestDto.Furniture.Depth,
+                Width = requestDto.Furniture.Width,
+                Height = requestDto.Furniture.Height,
+                ProductLink = requestDto.Furniture.ProductLink,
+                Category = FindCategoryById(requestDto.Furniture.CategoryId),
+            };
 
             var status = _statusRepository.GetByID(2); // "Обрабатывается"
 
             _requestStatusLineRepository.Insert(new RequestStatusLine
             {
+                Date = DateTime.UtcNow,
                 Request = request,
                 Commentary = message,
                 Status = status
@@ -172,6 +194,15 @@ namespace Persistence.Services
                     isDesigner && request.User.Id == user.Id ||
                     !isDesigner && request.StatusLines.First().Status.Id != 1) // Скрыть черновики от редактора
                 .ToList();
+        }
+
+        public void DeleteRequest(int id)
+        {
+            var request = _requestRepository.GetByID(id);
+            if (request == null)
+                throw new NotFoundException(nameof(Request), id);
+
+            _requestRepository.Delete(request);
         }
 
         public void UpdateRequestStatus(int id, RequestStatusLineRequestDto requestDto)

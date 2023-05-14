@@ -1,5 +1,4 @@
 import { Box } from "@mui/material"
-import colors from "../../Themes/colors"
 import { RequestsListHeader } from "./RequestsListHeader"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"

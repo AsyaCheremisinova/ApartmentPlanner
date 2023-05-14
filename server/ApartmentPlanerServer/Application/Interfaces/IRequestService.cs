@@ -9,5 +9,6 @@ namespace Application.Interfaces
         public ICollection<RequestResponseDto> GetAllRequests();
         public void UpdateRequestStatus(int id, RequestStatusLineRequestDto requestDto);
         public void UpdateRequest(int id, string message, CreateRequestRequestDto requestDto);
+        public void DeleteRequest(int id);
     }
 }

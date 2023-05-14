@@ -18,8 +18,9 @@ export const StatusIndicator = ({status}) => {
     return(
         <Box sx={{
             width: 160,
-            height: 40,
+            height: 20,
             borderRadius: 2,
+            padding: 1,
             backgroundColor: selectColor(),
             display: 'flex',
             justifyContent: 'center',
@@ -27,7 +28,7 @@ export const StatusIndicator = ({status}) => {
         }}>
             <Typography sx={{
                 color: colors.white
-            }}>
+            }} noWrap={true}>
                 {status.name}
             </Typography>
         </Box>

@@ -20,7 +20,7 @@ export const RequestSendBlock = ({data}) => {
     }
 
     const handleSend = () => {
-        dispatch(open())
+        dispatch(open(2))
     }
 
     return( 

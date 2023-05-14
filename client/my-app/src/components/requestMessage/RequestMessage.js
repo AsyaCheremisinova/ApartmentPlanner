@@ -1,14 +1,18 @@
 import { Box, ButtonBase, Input, Typography } from "@mui/material"
 import colors from "../../Themes/colors"
+import { getRequests } from "../../app/actions/getRequests"
 import { useDispatch, useSelector } from "react-redux"
 import { changeMessage, close } from "../../features/requests/requestMessageSlice"
-import { putRequest } from "../../app/actions/putRequest"
+import { close as closeDialog } from "../../features/requests/requestDialogSlice"
+import { changeRequestStatus, putRequest } from "../../app/actions/putRequest"
 
 export const RequestMessage = ({data}) => {
     const furniture = useSelector(store => store.requestForm.furniture)
     const selectedCategory = useSelector(store => store.requestForm.selectedCategory)
     const message = useSelector(store => store.requestMessage.requestMessage)
+    const targetStatusId = useSelector(store => store.requestMessage.targetStatusId)
     const requestId = useSelector(store => store.requestForm.requestId)
+    const dialogRequestId = useSelector(store => store.requestDialog.request.id)
 
     const dispatch = useDispatch()
 
@@ -18,14 +22,22 @@ export const RequestMessage = ({data}) => {
 
     const handleClick = () => {
         dispatch(close())
-        dispatch(putRequest({
-            id: requestId,
-            message: message,
-            furniture: furniture,
-            selectedCategory: selectedCategory,
-            image: data.image,
-            sourceFile: data.sourceFile
-        }))
+
+        if (targetStatusId === 2) {
+            dispatch(putRequest({
+                id: requestId,
+                message: message,
+                furniture: furniture,
+                selectedCategory: selectedCategory,
+                image: data.image,
+                sourceFile: data.sourceFile
+            }))
+        } else {
+            dispatch(changeRequestStatus(targetStatusId, dialogRequestId, message))
+        }
+
+        dispatch(closeDialog())
+        dispatch(getRequests())
     }
 
     return(
