@@ -1,15 +1,13 @@
 import axios from 'axios'
 import store from '../store'
 import { open } from '../../features/messageSlice'
-import { clearRequest, setRequestId } from '../../features/requests/requestFormSlice'
+import { setRequestId } from '../../features/requests/requestFormSlice'
 import { getRequests } from '../../app/actions/getRequests'
 import { close as closeDialog } from '../../features/requests/requestDialogSlice'
 
 export const putRequest = (request) => {
     return async (dispatch) => {
         try {
-            dispatch(clearRequest())
-
             const formData = new FormData()
 
             formData.append("message", request.message)

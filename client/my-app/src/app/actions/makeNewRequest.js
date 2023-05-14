@@ -1,13 +1,11 @@
 import axios from 'axios'
 import store from '../store'
 import { open } from '../../features/messageSlice'
-import { clearRequest, setRequestId } from '../../features/requests/requestFormSlice'
+import { setRequestId } from '../../features/requests/requestFormSlice'
 
 export const makeNewRequest = (request) => {
     return async (dispatch) => {
         try {
-            dispatch(clearRequest())
-
             const formData = new FormData()
 
             formData.append("source_file", request.sourceFile)
