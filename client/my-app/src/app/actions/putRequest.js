@@ -2,6 +2,8 @@ import axios from 'axios'
 import store from '../store'
 import { open } from '../../features/messageSlice'
 import { clearRequest, setRequestId } from '../../features/requests/requestFormSlice'
+import { getRequests } from '../../app/actions/getRequests'
+import { close as closeDialog } from '../../features/requests/requestDialogSlice'
 
 export const putRequest = (request) => {
     return async (dispatch) => {
@@ -41,7 +43,7 @@ export const putRequest = (request) => {
 
 
 export const changeRequestStatus = (status, requestId, commentary) => {
-    return async () => {
+    return async (dispatch) => {
         try {
             const token = store.getState().user.token
 
@@ -53,6 +55,9 @@ export const changeRequestStatus = (status, requestId, commentary) => {
                     'Authorization': token,
                 }
             })
+            
+            dispatch(closeDialog())
+            dispatch(getRequests())
 
         } catch (error) {
             console.error(error)

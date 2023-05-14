@@ -26,6 +26,7 @@ namespace Persistence.Services
         {
             return _furnitureRepository.GetList()
                 .Include(furniture => furniture.Category)
+                .Where(furniture => furniture.IsReady)
                 .Select(furniture => new FurnitureResponseDto
                 {
                     Id = furniture.Id,

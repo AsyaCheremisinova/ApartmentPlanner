@@ -32,7 +32,7 @@ export const RequestDialogButtons = () => {
     }    
 
     const showDeleteButton = () => {
-        if (statusId === 1 || roleId == 3)
+        if (statusId === 1 || roleId == 3 && statusId !== 4)
             return <DeleteButton/>
     }
 

@@ -120,6 +120,11 @@ namespace Persistence.Migrations
                     b.Property<int>("ImageId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsReady")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -213,7 +218,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 13, 20, 30, 35, 232, DateTimeKind.Utc).AddTicks(4990));
+                        .HasDefaultValue(new DateTime(2023, 5, 14, 10, 1, 18, 349, DateTimeKind.Utc).AddTicks(2804));
 
                     b.Property<int>("RequestId")
                         .HasColumnType("integer");
@@ -357,7 +362,7 @@ namespace Persistence.Migrations
                             Email = "admin@admin.com",
                             Login = "admin",
                             Name = "admin",
-                            Password = "$argon2id$v=19$m=65536,t=3,p=1$a0qAj16fXETKbBt3AWaLJQ$ZZ6hK2WimvvCwfp89Ta6XKVWWpkCvtmll5iMx1xVEoE",
+                            Password = "$argon2id$v=19$m=65536,t=3,p=1$EKfGZU6D++sQeoqpSFYpOw$FMRRnRQ55gXmrNPo8DoxFcUU1CsgfI425cNciZHwQGA",
                             RoleId = 1
                         });
                 });

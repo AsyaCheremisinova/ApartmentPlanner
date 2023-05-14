@@ -17,6 +17,7 @@ namespace Persistence.Services
         private readonly IGenericRepository<Category> _categoryRepository;
         private readonly IGenericRepository<Furniture> _furnitureRepository;
         private readonly IGenericRepository<File> _fileRepository;
+        private readonly IGenericRepository<Furniture> _furnitureService;
         private readonly IGenericRepository<RequestStatusLine> _requestStatusLineRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAuthService _authService;
@@ -29,6 +30,7 @@ namespace Persistence.Services
             _statusRepository = unitOfWork.StatusRepository;
             _categoryRepository = unitOfWork.CategoryRepository;
             _fileRepository = unitOfWork.FileRepository;
+            _furnitureRepository = unitOfWork.FurnitureRepository;
             _requestStatusLineRepository = unitOfWork.RequestStatusLineRepository;
             _httpContextAccessor = httpContextAccessor;
             _authService = authService;
@@ -214,6 +216,11 @@ namespace Persistence.Services
             var status = _statusRepository.GetByID(requestDto.StatusId);
             if (status == null)
                 throw new NotFoundException(nameof(Status), requestDto.StatusId);
+
+            var furniture = _furnitureRepository.GetByID(request.FurnitureId);
+            furniture.IsReady = status.Id == 4
+                ? true
+                : false;
 
             _requestStatusLineRepository.Insert(new RequestStatusLine
             {

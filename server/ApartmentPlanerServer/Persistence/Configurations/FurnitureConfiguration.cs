@@ -12,6 +12,9 @@ namespace Persistence.Configurations
             builder.Property(furniture => furniture.Id)
                 .IsRequired()
                 .HasColumnName("Id");
+
+            builder.Property(furniture => furniture.IsReady)
+                .HasDefaultValue(false);
         }
     }
 }

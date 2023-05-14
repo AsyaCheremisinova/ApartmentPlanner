@@ -12,8 +12,8 @@ using Persistence.DbContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(IPlannerDbContext))]
-    [Migration("20230503171116_TemporaryRoleDeletion")]
-    partial class TemporaryRoleDeletion
+    [Migration("20230514100119_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,43 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Не выбрано"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Столы"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Стулья"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Кровати"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Интерьер"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Домашние растения"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Диваны"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.File", b =>
@@ -86,6 +123,11 @@ namespace Persistence.Migrations
                     b.Property<int>("ImageId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsReady")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -111,6 +153,34 @@ namespace Persistence.Migrations
                     b.ToTable("Furniture");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId");
+
+                    b.ToTable("Projects");
+                });
+
             modelBuilder.Entity("Domain.Entities.Request", b =>
                 {
                     b.Property<int>("Id")
@@ -122,16 +192,50 @@ namespace Persistence.Migrations
                     b.Property<int>("FurnitureId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FurnitureId");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RequestStatusLine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Commentary")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("");
+
+                    b.Property<DateTime>("Date")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValue(new DateTime(2023, 5, 14, 10, 1, 18, 349, DateTimeKind.Utc).AddTicks(2804));
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("RequestStatusLines");
                 });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>
@@ -142,28 +246,79 @@ namespace Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Designer"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Editor"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "UnityUser"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Status", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("Id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("character varying(45)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Черновик"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Обрабатывается"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Возвращена на редактирование"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Принята"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Отклонена"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -194,7 +349,7 @@ namespace Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -202,6 +357,17 @@ namespace Persistence.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@admin.com",
+                            Login = "admin",
+                            Name = "admin",
+                            Password = "$argon2id$v=19$m=65536,t=3,p=1$EKfGZU6D++sQeoqpSFYpOw$FMRRnRQ55gXmrNPo8DoxFcUU1CsgfI425cNciZHwQGA",
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Furniture", b =>
@@ -231,6 +397,17 @@ namespace Persistence.Migrations
                     b.Navigation("SourceFile");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Project", b =>
+                {
+                    b.HasOne("Domain.Entities.File", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("File");
+                });
+
             modelBuilder.Entity("Domain.Entities.Request", b =>
                 {
                     b.HasOne("Domain.Entities.Furniture", "Furniture")
@@ -239,18 +416,50 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Status", null)
+                    b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Requests")
-                        .HasForeignKey("StatusId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Furniture");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RequestStatusLine", b =>
+                {
+                    b.HasOne("Domain.Entities.Request", "Request")
+                        .WithMany("RequestStatusLines")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Status", "Status")
+                        .WithMany("RequestStatusLines")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Request");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
-                    b.HasOne("Domain.Entities.Role", null)
+                    b.HasOne("Domain.Entities.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Request", b =>
+                {
+                    b.Navigation("RequestStatusLines");
                 });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>
@@ -259,6 +468,11 @@ namespace Persistence.Migrations
                 });
 
             modelBuilder.Entity("Domain.Entities.Status", b =>
+                {
+                    b.Navigation("RequestStatusLines");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Navigation("Requests");
                 });

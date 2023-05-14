@@ -32,7 +32,17 @@ export const requestFormSlice = createSlice({
             state.requestId = action.payload
         },
         clearRequest: (state) => {
-            state = initialState
+            state.furniture = {
+                name: "",
+                link: "",
+                height: "",
+                width: "",
+                depth: ""
+            }
+            state.categories = []
+            state.selectedCategory = 1
+            state.requestIsNew = true
+            state.requestId = 0
         }
     },
 })

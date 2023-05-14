@@ -1,8 +1,13 @@
 import { Box, ButtonBase, Typography } from "@mui/material"
 import colors from "../../Themes/colors"
 import { Link } from "react-router-dom"
+import { clearRequest } from "../../features/requests/requestFormSlice"
+import { useDispatch } from "react-redux"
 
 export const RequestsListHeader = () => {
+
+    const dispatch = useDispatch()
+
     return(
         <Box sx={{
             height:'10%',
@@ -40,7 +45,7 @@ export const RequestsListHeader = () => {
                         boxShadow: 1,
                         backgroundColor: colors.orange,
                         m: 1
-                    }}>
+                    }} onClick={() => dispatch(clearRequest())}>
                         <Typography sx={{
                             color: colors.white
                         }}>
